@@ -1,8 +1,12 @@
 package org;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.AUTO;
+
+import java.util.List;
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 public class salaCalculatoare {
@@ -13,6 +17,9 @@ public class salaCalculatoare {
 	private Integer nrStatiiPosibile;
 	private Integer nrStatiiAmplasate;
 	
+	@OneToMany(mappedBy = "salaStatieAmplasataId", cascade = ALL)
+	private List<Statii> statiiInSala;
+//	
 	public salaCalculatoare(Integer salaId, String denumireSala, Integer nrStatiiPosibile) {
 		super();
 		this.salaId = salaId;
@@ -55,6 +62,7 @@ public class salaCalculatoare {
 	public void setNrStatiiAmplasate(Integer nrStatiiAmplasate) {
 		this.nrStatiiAmplasate = nrStatiiAmplasate;
 	}
+
 
 	@Override
 	public int hashCode() {

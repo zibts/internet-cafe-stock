@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.AUTO;
+import static javax.persistence.CascadeType.ALL;
 
 
 @Entity
@@ -24,7 +25,7 @@ public class Furnizori {
 	
 	private Boolean furnizorLivrare;
 	
-	@OneToMany(mappedBy = "furnizor")
+	@OneToMany(mappedBy = "furnizor", cascade = ALL)
 	private List<furnizoriOferta> furnizoriOfertanti;
 
 	//Constructor

@@ -37,6 +37,24 @@ public class Inventar {
 	@OneToMany(mappedBy = "obiect")
 	private List<furnizoriOferta> obiecteOferite;
 
+	@OneToMany(mappedBy = "calculatorStatieId")
+	private List<Statii> statiiCuCalculatoare;
+
+	@OneToMany(mappedBy = "keyboardStatieId")
+	private List<Statii> statiiCuKeyboard;
+	
+	@OneToMany(mappedBy = "mouseStatieId")
+	private List<Statii> statiiCuMouse;
+
+	@OneToMany(mappedBy = "displayStatieId")
+	private List<Statii> statiiCuDisplay;
+	
+	@OneToMany(mappedBy = "castiStatieId")
+	private List<Statii> statiiCuCasti;
+	
+	@OneToMany(mappedBy = "masaStatie")
+	private List<Statii> statiiCuBirou;
+	
 	protected Inventar(Integer obiectId, String obiectNume, String obiectProducator, double obiectPret,
 			Integer stocDisponibil, Integer stocTotal, org.tipInventar tipInventar) {
 		super();
@@ -116,6 +134,30 @@ public class Inventar {
 
 	public List<furnizoriOferta> getObiecteOferite() {
 		return obiecteOferite;
+	}
+	
+	public List<Statii> getStatiiCuCalculatoare() {
+		return statiiCuCalculatoare;
+	}
+
+	public List<Statii> getStatiiCuKeyboard() {
+		return statiiCuKeyboard;
+	}
+
+	public List<Statii> getStatiiCuMouse() {
+		return statiiCuMouse;
+	}
+
+	public List<Statii> getStatiiCuDisplay() {
+		return statiiCuDisplay;
+	}
+
+	public List<Statii> getStatiiCuCasti() {
+		return statiiCuCasti;
+	}
+
+	public List<Statii> getStatiiCuBirou() {
+		return statiiCuBirou;
 	}
 
 	@Override

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>InternetJPA</name>
+	<name>InternetJSF</name>
 	<comment></comment>
 	<projects>
+		<project>InternetJPA</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -13,8 +13,6 @@ public class calculator extends Inventar {
 	private String tipStocare;
 	private double capacitateStogareGb;
 	
-	@OneToMany(mappedBy = "calculatorStatieId")
-	private List<Statii> calculatoareInStatii;
 
 	public calculator(Integer obiectId, String obiectNume, String obiectProducator, double obiectPret,
 			Integer stocDisponibil, Integer stocTotal, org.tipInventar tipInventar, String procesor,
@@ -31,6 +29,9 @@ public class calculator extends Inventar {
 		// TODO Auto-generated constructor stub
 	}
 
+	public calculator(Integer id) {
+		// TODO Auto-generated constructor stub
+	}
 	public String getProcesor() {
 		return procesor;
 	}
@@ -71,16 +72,15 @@ public class calculator extends Inventar {
 		this.capacitateStogareGb = capacitateStogareGb;
 	}
 
-	public List<Statii> getCalculatoareInStatii() {
-		return calculatoareInStatii;
-	}
 
 
+
+
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((calculatoareInStatii == null) ? 0 : calculatoareInStatii.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(capacitateStogareGb);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -99,11 +99,6 @@ public class calculator extends Inventar {
 		if (getClass() != obj.getClass())
 			return false;
 		calculator other = (calculator) obj;
-		if (calculatoareInStatii == null) {
-			if (other.calculatoareInStatii != null)
-				return false;
-		} else if (!calculatoareInStatii.equals(other.calculatoareInStatii))
-			return false;
 		if (Double.doubleToLongBits(capacitateStogareGb) != Double.doubleToLongBits(other.capacitateStogareGb))
 			return false;
 		if (cardVideo == null) {
@@ -128,12 +123,11 @@ public class calculator extends Inventar {
 			return false;
 		return true;
 	}
-	
 	@Override
 	public String toString() {
 		return ""+ this.getObiectId() +" "+ this.getObiectNume()+" "+this.getObiectProducator()+" "+ this.getObiectPret()+" "+ this.getStocDisponibil()+" " +"calculator [procesor=" + procesor + ", memorieRamMb=" + memorieRamMb + ", cardVideo=" + cardVideo
 				+ ", tipStocare=" + tipStocare + ", capacitateStogareGb=" + capacitateStogareGb
-				+ ", calculatoareInStatii=" + calculatoareInStatii + "]";
+				+ ", calculatoareInStatii=" + "]";
 	}	
 	
 	

@@ -16,13 +16,13 @@ public class stocInVanzare {
 	@GeneratedValue(strategy = AUTO)
 	private Integer ofertaVanzareId;
 	
-	@ManyToOne(cascade = ALL)
+	@ManyToOne
 	@JoinColumn(name="obiectId")
 	private Inventar obiectId;
 	
-	private Float pretVanzare;
+	private double pretVanzare;
 
-	public stocInVanzare(Integer ofertaVanzareId, Inventar obiectId, Float pretVanzare) {
+	public stocInVanzare(Integer ofertaVanzareId, Inventar obiectId, double pretVanzare) {
 		super();
 		this.ofertaVanzareId = ofertaVanzareId;
 		this.obiectId = obiectId;
@@ -49,13 +49,14 @@ public class stocInVanzare {
 		this.obiectId = obiectId;
 	}
 
-	public Float getPretVanzare() {
+	public double getPretVanzare() {
 		return pretVanzare;
 	}
 
-	public void setPretVanzare(Float pretVanzare) {
+	public void setPretVanzare(double pretVanzare) {
 		this.pretVanzare = pretVanzare;
 	}
+
 
 	@Override
 	public int hashCode() {
@@ -63,7 +64,9 @@ public class stocInVanzare {
 		int result = 1;
 		result = prime * result + ((obiectId == null) ? 0 : obiectId.hashCode());
 		result = prime * result + ((ofertaVanzareId == null) ? 0 : ofertaVanzareId.hashCode());
-		result = prime * result + ((pretVanzare == null) ? 0 : pretVanzare.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(pretVanzare);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -86,10 +89,7 @@ public class stocInVanzare {
 				return false;
 		} else if (!ofertaVanzareId.equals(other.ofertaVanzareId))
 			return false;
-		if (pretVanzare == null) {
-			if (other.pretVanzare != null)
-				return false;
-		} else if (!pretVanzare.equals(other.pretVanzare))
+		if (Double.doubleToLongBits(pretVanzare) != Double.doubleToLongBits(other.pretVanzare))
 			return false;
 		return true;
 	}

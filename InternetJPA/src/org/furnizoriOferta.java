@@ -16,16 +16,16 @@ public class furnizoriOferta  {
 	private Integer cantitateOferita;
 	
 	@Id
-	@ManyToOne(cascade = ALL)
+	@ManyToOne
 	@JoinColumn(name="furnizorId")
 	private Furnizori furnizor;
 	
 	@Id
-	@ManyToOne(cascade = ALL)
+	@ManyToOne
 	@JoinColumn(name="obiectId")
 	private Inventar obiect;
 
-	public furnizoriOferta(double pretFurnizoriLei, Integer cantitateOferita, Furnizori furnizor, Inventar obiect) {
+	public furnizoriOferta(Furnizori furnizor, Inventar obiect,double pretFurnizoriLei, Integer cantitateOferita) {
 		super();
 		this.pretFurnizoriLei = pretFurnizoriLei;
 		this.cantitateOferita = cantitateOferita;

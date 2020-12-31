@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.OneToMany;
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 public class tipInventar {
@@ -20,7 +21,7 @@ public class tipInventar {
 	
 	private String descriereCategorie;
 	
-	@OneToMany(mappedBy = "tipInventar")
+	@OneToMany(mappedBy = "tipInventar", cascade = ALL)
 	private List<Inventar> obiecteInventar;
 
 	//Constructor
