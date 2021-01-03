@@ -4,8 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
-
-
+import javax.persistence.ManyToMany;
 
 import java.util.List;
 
@@ -14,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Inheritance(strategy = JOINED)
@@ -31,29 +31,32 @@ public class Inventar {
 	@JoinColumn(name="tipId")
 	private tipInventar tipInventar;
 	
-	@OneToMany(mappedBy = "obiectId")
+	@OneToMany(mappedBy = "obiectId", cascade = ALL)
 	private List<stocInVanzare> obiecteInVanzare;
 	
-	@OneToMany(mappedBy = "obiect")
+	@OneToMany(mappedBy = "obiect", cascade = ALL)
 	private List<furnizoriOferta> obiecteOferite;
 
-	@OneToMany(mappedBy = "calculatorStatieId")
+	@OneToMany(mappedBy = "calculatorStatieId", cascade = ALL)
 	private List<Statii> statiiCuCalculatoare;
 
-	@OneToMany(mappedBy = "keyboardStatieId")
+	@OneToMany(mappedBy = "keyboardStatieId", cascade = ALL)
 	private List<Statii> statiiCuKeyboard;
 	
-	@OneToMany(mappedBy = "mouseStatieId")
+	@OneToMany(mappedBy = "mouseStatieId", cascade = ALL)
 	private List<Statii> statiiCuMouse;
 
-	@OneToMany(mappedBy = "displayStatieId")
+	@OneToMany(mappedBy = "displayStatieId", cascade = ALL)
 	private List<Statii> statiiCuDisplay;
 	
-	@OneToMany(mappedBy = "castiStatieId")
+	@OneToMany(mappedBy = "castiStatieId", cascade = ALL)
 	private List<Statii> statiiCuCasti;
 	
-	@OneToMany(mappedBy = "masaStatie")
+	@OneToMany(mappedBy = "masaStatie", cascade = ALL)
 	private List<Statii> statiiCuBirou;
+	
+	@ManyToMany(mappedBy= "inventarInStatie", cascade = ALL)
+	private List<Statii> statiiAmplasate;
 	
 	protected Inventar(Integer obiectId, String obiectNume, String obiectProducator, double obiectPret,
 			Integer stocDisponibil, Integer stocTotal, org.tipInventar tipInventar) {

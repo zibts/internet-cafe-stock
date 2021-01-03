@@ -26,14 +26,6 @@ public class TestMain {
 		perifericMouse mouse1=new perifericMouse(5,"Logitech G403","Logitech",20,2,2,t2,"Mouse","USB",2500.0,20.0);
 		perifericKeyboard keyboard1=new perifericKeyboard(6,"ApexDragons","Razer",20,2,2,t2,"Keyboard","Bluetooth",true,true);
 		
-		ArrayList<Periferice> perifericeStatia1= new ArrayList<Periferice>();
-		perifericeStatia1.add(casti1);
-		perifericeStatia1.add(display1);
-		perifericeStatia1.add(mouse1);
-		perifericeStatia1.add(keyboard1);
-		ArrayList<Mobilier> mobilierStatia1 = new ArrayList<Mobilier>();
-		mobilierStatia1.add(m1);
-		mobilierStatia1.add(m2);
 		
 		salaCalculatoare sala1 = new salaCalculatoare(1,"Gaming",10);
 		
@@ -44,11 +36,16 @@ public class TestMain {
 		
 		furnizoriOferta oferta1 = new furnizoriOferta(f1,casti1,200,20);
 		
+		Statii s1 = new Statii(1,sala1, comp2, keyboard1, mouse1, display1, casti1, m2);
+		Statii s2 = new Statii(2,sala1, comp1, keyboard1, mouse1, display1, casti1, m2);
+		
+		System.out.println(s1.getInventarInStatie());
 		EntityManagerFactory emf=Persistence.createEntityManagerFactory("InternetJPA");
 		EntityManager em=emf.createEntityManager();
 		
 		//Curatire Baze de date
 //		em.getTransaction().begin();
+//		em.createQuery("DELETE FROM Statii").executeUpdate();
 //		em.createQuery("DELETE FROM furnizoriOferta").executeUpdate();
 //		em.createQuery("DELETE FROM Furnizori").executeUpdate();
 //		em.createQuery("DELETE FROM stocInVanzare").executeUpdate();
@@ -63,22 +60,25 @@ public class TestMain {
 		
 
 //		Scriere
-//		em.getTransaction().begin();	
-//		em.persist(t1);
-//		em.persist(t2);
-//		em.persist(t3);
-//		em.persist(m1);
-//		em.persist(m2);
-//		em.persist(comp2);
-//		em.persist(casti1);
-//		em.persist(display1);
-//		em.persist(mouse1);
-//		em.persist(keyboard1);
-//		em.persist(sala1);
-//		em.persist(stocInVanzare1);
-//		em.persist(f1);
-//		em.persist(oferta1);
-//		em.getTransaction().commit();
+		em.getTransaction().begin();	
+		em.persist(t1);
+		em.persist(t2);
+		em.persist(t3);
+		em.persist(m1);
+		em.persist(m2);
+		em.persist(comp1);
+		em.persist(comp2);
+		em.persist(casti1);
+		em.persist(display1);
+		em.persist(mouse1);
+		em.persist(keyboard1);
+		em.persist(sala1);
+		em.persist(stocInVanzare1);
+		em.persist(f1);
+		em.persist(oferta1);
+		em.persist(s1);
+		em.persist(s2);
+		em.getTransaction().commit();
 //		
 		//Stergere
 //		em.getTransaction().begin();

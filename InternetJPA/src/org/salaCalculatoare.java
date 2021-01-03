@@ -19,6 +19,7 @@ public class salaCalculatoare {
 	
 	@OneToMany(mappedBy = "salaStatieAmplasataId", cascade = ALL)
 	private List<Statii> statiiInSala;
+	
 //	
 	public salaCalculatoare(Integer salaId, String denumireSala, Integer nrStatiiPosibile) {
 		super();
@@ -56,13 +57,21 @@ public class salaCalculatoare {
 	}
 
 	public Integer getNrStatiiAmplasate() {
-		return nrStatiiAmplasate;
+		if (this.getStatiiInSala()==null) {
+			return 0;
+		}
+		else {
+		return this.getStatiiInSala().size();
+		}
 	}
 
 	public void setNrStatiiAmplasate(Integer nrStatiiAmplasate) {
 		this.nrStatiiAmplasate = nrStatiiAmplasate;
 	}
 
+	public List<Statii> getStatiiInSala() {
+		return statiiInSala;
+	}
 
 	@Override
 	public int hashCode() {

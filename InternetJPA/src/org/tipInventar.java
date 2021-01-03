@@ -26,13 +26,11 @@ public class tipInventar {
 
 	//Constructor
 	public tipInventar(Integer tipId, String nume, String descriereCategorie) {
-		super();
 		this.tipId=tipId;
 		this.nume = nume;
 		this.descriereCategorie = descriereCategorie;
 	}
 	public tipInventar() {
-		super();
 	}
 	//GetterSetter
 	public Integer getTipId() {

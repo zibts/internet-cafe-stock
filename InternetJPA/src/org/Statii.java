@@ -3,6 +3,7 @@ package org;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.GenerationType.AUTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -47,6 +49,10 @@ public class Statii {
 	@ManyToOne
 	@JoinColumn(name="masaId")
 	private Mobilier masaStatie;
+	
+	@ManyToMany
+	@JoinColumn(name="inventarInStatie")
+	private List<Inventar> inventarInStatie;
 
 	public Statii(Integer statieId, salaCalculatoare salaStatieAmplasataId, calculator calculatorStatieId,
 			perifericKeyboard keyboardStatieId, perifericMouse mouseStatieId, perifericDisplay displayStatieId,
@@ -60,6 +66,7 @@ public class Statii {
 		this.displayStatieId = displayStatieId;
 		this.castiStatieId = castiStatieId;
 		this.masaStatie = masaStatie;
+		this.inventarInStatie=this.createInventarInStatie();
 	}
 	
 	
@@ -130,6 +137,22 @@ public class Statii {
 	public void setMasaStatie(Mobilier masaStatie) {
 		this.masaStatie = masaStatie;
 	}
+	public List<Inventar> createInventarInStatie() {
+		List<Inventar> intermed = new ArrayList<Inventar>();
+		intermed.add(this.calculatorStatieId);
+		intermed.add(this.castiStatieId);
+		intermed.add(this.displayStatieId);
+		intermed.add(this.keyboardStatieId);
+		intermed.add(this.masaStatie);
+		intermed.add(this.mouseStatieId);
+		return intermed;
+	}
+	
+
+	public List<Inventar> getInventarInStatie() {
+		return inventarInStatie;
+	}
+
 
 	@Override
 	public int hashCode() {

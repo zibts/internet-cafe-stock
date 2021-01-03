@@ -16,6 +16,8 @@ import org.calculator;
 public class FormCalculatoare {
 	private calculator calculator;
 	private List<calculator> calculatoare=new ArrayList<calculator>();
+	private tipInventar tipInventar;
+	private List<tipInventar> tipuriInventare=new ArrayList<tipInventar>();
 	
 	public calculator getcalculator() {
 		return calculator;
@@ -29,8 +31,21 @@ public class FormCalculatoare {
 	public void setcalculatoare(List<calculator> calculatoare) {
 		this.calculatoare = calculatoare;
 	}
-	EntityManager em;
+	
+	public tipInventar getTipInventar() {
+		return tipInventar;
+	}
+	public void setTipInventar(tipInventar tipInventar) {
+		this.tipInventar = tipInventar;
+	}
+	public List<tipInventar> getTipuriInventare() {
+		return tipuriInventare;
+	}
+	public void setTipuriInventare(List<tipInventar> tipuriInventare) {
+		this.tipuriInventare = tipuriInventare;
+	}
 
+	EntityManager em;
 	public FormCalculatoare() {
 		EntityManagerFactory emf=Persistence.createEntityManagerFactory("InternetJPA");
 		em=emf.createEntityManager();
@@ -39,7 +54,10 @@ public class FormCalculatoare {
 	public void init() {
 		if(this.calculatoare.isEmpty())
 			this.calculatoare=em.createQuery("select c from calculator c").getResultList();
+		if(this.tipuriInventare.isEmpty())
+			this.tipuriInventare=em.createQuery("select t from tipInventar t").getResultList();
 		this.calculator=this.calculatoare.get(0);
+		this.tipInventar=this.tipuriInventare.get(0);
 	}
 	public void prevcalculator(ActionEvent e) {
 		Integer poz=this.calculatoare.indexOf(this.calculator);
@@ -56,18 +74,26 @@ public class FormCalculatoare {
 	public void adaugacalculator(ActionEvent e) {
 		this.calculator=new calculator();
 		this.calculator.setObiectId(999);
-		this.calculator.setObiectNume("DellXPSXD");;
+		this.calculator.setTipInventar(tipuriInventare.get(1));;
+		this.calculator.setObiectNume("Nume Nou");;
 		this.calculatoare.add(this.calculator);
 	}
+	
 	public void salveazacalculator(ActionEvent e) {
+		if (!em.getTransaction().isActive()) 
+			em.getTransaction().begin();
+		
 		if(this.em.contains(this.calculator)) {
-		em.getTransaction().begin();
-		em.merge(this.calculator);
-		em.getTransaction().commit();}
+			em.merge(this.calculator);
+		}
+		else {
+			em.persist(this.calculator);	
+		}
 		this.calculator=this.calculatoare.get(0);
-
-
+		
+		em.getTransaction().commit();
 	}
+	
 	public void stergecalculator(ActionEvent e) {
 		this.calculatoare.remove(this.calculator);
 		if(this.em.contains(this.calculator)) {
@@ -83,11 +109,27 @@ public class FormCalculatoare {
 		em.refresh(this.calculator);
 		init();
 	}
+	
+	public Integer getIdCalculator(){
+		return this.calculator.getObiectId();
+		}	
+		public void setIdCalculator(Integer id){
+		if(this.em.contains(this.calculator)) {
+			this.calculator = em.find(calculator.class, id);
+		}
+		}
 
-
+	public Integer getIdCalculatorInventar(){
+		return this.calculator.getTipInventar().getTipId()+1;
+	}
+	
+	public void setIdCalculatorInventar(Integer id){
+		this.calculator.setTipInventar(this.calculator.getTipInventar());
+	}
 	
 	
 
 
 
 }
+
