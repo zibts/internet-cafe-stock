@@ -3,12 +3,15 @@ package org;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import org.calculator;
 
@@ -18,6 +21,7 @@ public class FormCalculatoare {
 	private List<calculator> calculatoare=new ArrayList<calculator>();
 	private tipInventar tipInventar;
 	private List<tipInventar> tipuriInventare=new ArrayList<tipInventar>();
+	private Boolean readOnlyId;
 	
 	public calculator getcalculator() {
 		return calculator;
@@ -44,6 +48,9 @@ public class FormCalculatoare {
 	public void setTipuriInventare(List<tipInventar> tipuriInventare) {
 		this.tipuriInventare = tipuriInventare;
 	}
+	public Boolean getReadOnlyId() {
+		return readOnlyId;
+	}
 
 	EntityManager em;
 	public FormCalculatoare() {
@@ -58,17 +65,20 @@ public class FormCalculatoare {
 			this.tipuriInventare=em.createQuery("select t from tipInventar t").getResultList();
 		this.calculator=this.calculatoare.get(0);
 		this.tipInventar=this.tipuriInventare.get(0);
+		this.readOnlyId = this.checkIfThere(this.calculator);
 	}
 	public void prevcalculator(ActionEvent e) {
 		Integer poz=this.calculatoare.indexOf(this.calculator);
 		if(poz>0)
 			this.calculator=this.calculatoare.get(poz-1);
+		this.readOnlyId = this.checkIfThere(this.calculator);
 	}
 
 	public void nextcalculator(ActionEvent e) {
 		Integer poz=this.calculatoare.indexOf(this.calculator);
 		if((poz+1)<this.calculatoare.size())
 			this.calculator=this.calculatoare.get(poz+1);
+		this.readOnlyId = this.checkIfThere(this.calculator);
 	}
 
 	public void adaugacalculator(ActionEvent e) {
@@ -78,24 +88,78 @@ public class FormCalculatoare {
 		this.calculator.setStocTotal(0);
 		this.calculator.setTipInventar(this.calculatoare.get(0).getTipInventar());
 		this.calculatoare.add(this.calculator);
+		this.readOnlyId = false;
 	}
 	
 	public void salveazacalculator(ActionEvent e) {
+		Integer intermed = this.calculator.getObiectId();
+		this.readOnlyId = true;
 		if (!em.getTransaction().isActive()) 
 			em.getTransaction().begin();
-		this.calculator.setStocDisponibil(this.calculator.getStocTotal());
-		if(this.em.contains(this.calculator)) {
-			em.merge(this.calculator);
-		}
-		else {
-			em.persist(this.calculator);	
-		}
-		this.calculator=this.calculatoare.get(0);
 		
-		em.getTransaction().commit();
+		try {
+			if(this.em.contains(this.calculator)) {
+				em.merge(this.calculator);
+			}
+		}
+		catch(Exception ex) {
+			FacesMessage facesMsg = 
+		            new FacesMessage(FacesMessage.SEVERITY_ERROR, "EROARE SALVARE: " + ex.getMessage(), null);			
+			
+			FacesContext fc = FacesContext.getCurrentInstance();			
+			
+			// Afisare mesaj
+			fc.addMessage(null, facesMsg);
+			fc.renderResponse();
+			if (!em.getTransaction().isActive()) 
+				em.getTransaction().begin();
+			em.getTransaction().rollback();
+		}
+		
+		try {
+			if(!this.em.contains(this.calculator)) {
+				this.calculator.setStocDisponibil(this.calculator.getStocTotal());
+				em.persist(this.calculator);	
+			}
+			this.calculator=this.calculatoare.get(0);
+		
+			em.getTransaction().commit();
+		}
+		catch(Exception ex) {
+			FacesMessage facesMsg = 
+		            new FacesMessage(FacesMessage.SEVERITY_ERROR, "EROARE SALVARE: " + ex.getMessage(), null);			
+			
+			FacesContext fc = FacesContext.getCurrentInstance();			
+			
+			// Afisare mesaj
+			
+			fc.addMessage(null, facesMsg);
+			fc.renderResponse();
+			if (!em.getTransaction().isActive()) 
+				em.getTransaction().begin();
+			em.getTransaction().rollback();
+		}
 	}
 	
 	public void stergecalculator(ActionEvent e) {
+		Query q1 =em.createQuery("Select c FROM stocInVanzare c where c.obiectId=:obiectId");
+		q1.setParameter("obiectId", this.calculator);
+		
+		Query q2 = em.createQuery("Select c FROM furnizoriOferta c where c.obiect=:obiectId");
+		q2.setParameter("obiectId", this.calculator);
+		
+		Query q3 = em.createQuery("Select c FROM Statii c where c.calculatorStatieId=:obiectId");
+		q3.setParameter("obiectId", this.calculator);
+		
+		if(q1.getResultList().size()!=0 || q2.getResultList().size()!=0 || q3.getResultList().size()!=0) {
+			
+			FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare, in ofertele furnizorilor sau amplasat intr-o statie");			
+			FacesContext fc = FacesContext.getCurrentInstance();			
+			// Afisare mesaj
+			fc.addMessage(null, facesMsg);
+			fc.renderResponse();
+			return;
+		}
 		
 		if(this.em.contains(this.calculator)) {
 			this.em.getTransaction().begin();
@@ -128,7 +192,13 @@ public class FormCalculatoare {
 		}
 	}
 	
-	
+	public Boolean checkIfThere(calculator calculator) {
+		if(em.find(calculator.getClass(), calculator.getObiectId())!= null) {
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 
 

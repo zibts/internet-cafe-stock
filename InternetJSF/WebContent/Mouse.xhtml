@@ -9,59 +9,60 @@ xmlns:f="http://java.sun.com/jsf/core"
 <h:button outcome="Menu.xhtml" value="Menu" />
 <h:form id="form1">
 
-<h:panelGrid id="p1" columns="4" border="1">
+<h:panelGrid id="p1" columns="4">
 <f:facet name="header" >
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 <h:outputText value="Formular Gestionare Mouse" style="font-size: 18px"></h:outputText>
 
 </f:facet>
 <h:panelGrid id="p2" columns="2">
-<h:commandButton id="prevC" value="Previous" actionListener="#{formMouse.prevperifericMouse}"></h:commandButton>
-<h:commandButton id="nextC" value="Next" actionListener="#{formMouse.nextperifericMouse}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="prevC" value="Previous" actionListener="#{formMouse.prevperifericMouse}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="nextC" value="Next" actionListener="#{formMouse.nextperifericMouse}"></h:commandButton>
 </h:panelGrid>
 <h:panelGrid id="p3" columns="2">
-<h:commandButton id="cmdAdauga" value="Adauga" actionListener="#{formMouse.adaugaperifericMouse}"></h:commandButton>
-<h:commandButton id="cmdSterge" value="Sterge" actionListener="#{formMouse.stergeperifericMouse}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAdauga" value="Adauga" actionListener="#{formMouse.adaugaperifericMouse}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSterge" value="Sterge" actionListener="#{formMouse.stergeperifericMouse}"></h:commandButton>
 </h:panelGrid>
 <h:panelGrid id="p4" columns="2">
-<h:commandButton id="cmdAbandon" value="Abandon" actionListener="#{formMouse.abandon}"></h:commandButton>
-<h:commandButton id="cmdSalveaza" value="Salveaza" actionListener="#{formMouse.salveazaperifericMouse}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAbandon" value="Abandon" actionListener="#{formMouse.abandon}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSalveaza" value="Salveaza" actionListener="#{formMouse.salveazaperifericMouse}"></h:commandButton>
 </h:panelGrid>
-<h:selectOneMenu value="#{formMouse.idperifericMouse}">
+<h:selectOneMenu styleClass="form-control" style="margin:5" value="#{formMouse.idperifericMouse}">
 <f:selectItems id="s1" value="#{formMouse.perifericeMouse}"
 var="item" itemValue="#{item.obiectId}"></f:selectItems>
 <f:ajax render="Nume DPI Id Greutatea producator Pret stocDisponibil stocTotal"></f:ajax>
 </h:selectOneMenu>
 
-<h:outputLabel value="Id"></h:outputLabel>
-<h:inputText id="Id" value="#{formMouse.perifericMouse.obiectId}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Id"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="Id" readonly="#{formMouse.readOnlyId}" value="#{formMouse.perifericMouse.obiectId}"></h:inputText>
 
-<h:outputLabel value="DPI"></h:outputLabel>
-<h:inputText id="DPI" value="#{formMouse.perifericMouse.maxDpi}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="DPI"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="DPI" value="#{formMouse.perifericMouse.maxDpi}"></h:inputText>
 
-<h:outputLabel value="Nume"></h:outputLabel>
-<h:inputText id="Nume" value="#{formMouse.perifericMouse.obiectNume}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Nume"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="Nume" value="#{formMouse.perifericMouse.obiectNume}"></h:inputText>
 
-<h:outputLabel value="Greutatea"></h:outputLabel>
-<h:inputText id="Greutatea" value="#{formMouse.perifericMouse.greutateG}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Greutatea"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="Greutatea" value="#{formMouse.perifericMouse.greutateG}"></h:inputText>
 
-<h:outputLabel value="Producator"></h:outputLabel>
-<h:inputText id="producator" value="#{formMouse.perifericMouse.obiectProducator}"></h:inputText>
-
-
-<h:outputLabel value="Pretul"></h:outputLabel>
-<h:inputText id="Pret" value="#{formMouse.perifericMouse.obiectPret}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Producator"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="producator" value="#{formMouse.perifericMouse.obiectProducator}"></h:inputText>
 
 
-<h:outputLabel value="Stoc Disponibil"></h:outputLabel>
-<h:outputLabel id="stocDisponibil" value="#{formMouse.perifericMouse.stocDisponibil}"></h:outputLabel>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Pretul"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="Pret" value="#{formMouse.perifericMouse.obiectPret}"></h:inputText>
 
 
-<h:outputLabel value="Stoc Total"></h:outputLabel>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Stoc Disponibil"></h:outputLabel>
+<h:outputLabel styleClass="form-control" style="margin:2px" id="stocDisponibil" value="#{formMouse.perifericMouse.stocDisponibil}"></h:outputLabel>
 
-<h:inputText id="stocTotal" value="#{formMouse.perifericMouse.stocTotal}"></h:inputText>
+
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Stoc Total"></h:outputLabel>
+
+<h:inputText styleClass="form-control" style="margin:2px" id="stocTotal" value="#{formMouse.perifericMouse.stocTotal}"></h:inputText>
 </h:panelGrid>
 
-<h:messages style = "color:red;margin:8px;" /> 
+<h:messages style = "color:red;margin:8px;"/> 
 </h:form>
 
 

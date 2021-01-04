@@ -22,6 +22,7 @@ public class FormCasti {
 	private List<perifericCasti> perifericeCasti=new ArrayList<perifericCasti>();
 	private tipInventar tipInventar;
 	private List<tipInventar> tipuriInventare=new ArrayList<tipInventar>();
+	private Boolean readOnlyId;
 	
 	public perifericCasti getperifericCasti() {
 		return perifericCasti;
@@ -48,7 +49,10 @@ public class FormCasti {
 	public void setTipuriInventare(List<tipInventar> tipuriInventare) {
 		this.tipuriInventare = tipuriInventare;
 	}
-
+	public Boolean getReadOnlyId() {
+		return readOnlyId;
+	}
+	
 	EntityManager em;
 	public FormCasti() {
 		EntityManagerFactory emf=Persistence.createEntityManagerFactory("InternetJPA");
@@ -58,17 +62,20 @@ public class FormCasti {
 	public void init() {
 		this.perifericeCasti=em.createQuery("select c from perifericCasti c").getResultList();
 		this.perifericCasti=this.perifericeCasti.get(0);
+		this.readOnlyId = this.checkIfThere(this.perifericCasti);
 	}
 	public void prevperifericCasti(ActionEvent e) {
 		Integer poz=this.perifericeCasti.indexOf(this.perifericCasti);
 		if(poz>0)
 			this.perifericCasti=this.perifericeCasti.get(poz-1);
+		this.readOnlyId = this.checkIfThere(this.perifericCasti);
 	}
 
 	public void nextperifericCasti(ActionEvent e) {
 		Integer poz=this.perifericeCasti.indexOf(this.perifericCasti);
 		if((poz+1)<this.perifericeCasti.size())
 			this.perifericCasti=this.perifericeCasti.get(poz+1);
+		this.readOnlyId = this.checkIfThere(this.perifericCasti);
 	}
 
 	public void adaugaperifericCasti(ActionEvent e) {
@@ -78,10 +85,12 @@ public class FormCasti {
 		this.perifericCasti.setStocTotal(0);
 		this.perifericCasti.setTipInventar(this.perifericeCasti.get(0).getTipInventar());
 		this.perifericeCasti.add(this.perifericCasti);
+		this.readOnlyId = false;
 	}
 	
 	public void salveazaperifericCasti(ActionEvent e) {
 		Integer intermed = this.perifericCasti.getObiectId();
+		this.readOnlyId = true;
 		if (!em.getTransaction().isActive()) 
 			em.getTransaction().begin();
 		
@@ -199,6 +208,14 @@ public class FormCasti {
 	public void setIdperifericCasti(Integer id){
 		if(this.em.contains(this.perifericCasti)) {
 			this.perifericCasti = em.find(perifericCasti.class, id);
+		}
+	}
+	
+	public Boolean checkIfThere(perifericCasti Casti) {
+		if(em.find(Casti.getClass(), Casti.getObiectId())!= null) {
+			return true;
+		}else{
+			return false;
 		}
 	}
 	

@@ -9,60 +9,62 @@ xmlns:f="http://java.sun.com/jsf/core"
 <h:button outcome="Menu.xhtml" value="Menu" />
 <h:form id="form1">
 
-<h:panelGrid id="p1" columns="4" border="1">
+<h:panelGrid id="p1" columns="4">
 <f:facet name="header" >
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+
 <h:outputText value="Formular Gestionare Display" style="font-size: 18px"></h:outputText>
 
 </f:facet>
 <h:panelGrid id="p2" columns="2">
-<h:commandButton id="prevC" value="Previous" actionListener="#{formDisplay.prevperifericDisplay}"></h:commandButton>
-<h:commandButton id="nextC" value="Next" actionListener="#{formDisplay.nextperifericDisplay}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="prevC" value="Previous" actionListener="#{formDisplay.prevperifericDisplay}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" id="nextC" value="Next" actionListener="#{formDisplay.nextperifericDisplay}"></h:commandButton>
 </h:panelGrid>
 <h:panelGrid id="p3" columns="2">
-<h:commandButton id="cmdAdauga" value="Adauga" actionListener="#{formDisplay.adaugaperifericDisplay}"></h:commandButton>
-<h:commandButton id="cmdSterge" value="Sterge" actionListener="#{formDisplay.stergeperifericDisplay}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAdauga" value="Adauga" actionListener="#{formDisplay.adaugaperifericDisplay}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSterge" value="Sterge" actionListener="#{formDisplay.stergeperifericDisplay}"></h:commandButton>
 </h:panelGrid>
 <h:panelGrid id="p4" columns="2">
-<h:commandButton id="cmdAbandon" value="Abandon" actionListener="#{formDisplay.abandon}"></h:commandButton>
-<h:commandButton id="cmdSalveaza" value="Salveaza" actionListener="#{formDisplay.salveazaperifericDisplay}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAbandon" value="Abandon" actionListener="#{formDisplay.abandon}"></h:commandButton>
+<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSalveaza" value="Salveaza" actionListener="#{formDisplay.salveazaperifericDisplay}"></h:commandButton>
 </h:panelGrid>
-<h:selectOneMenu value="#{formDisplay.idperifericDisplay}">
+<h:selectOneMenu styleClass="form-control" style="margin:5" value="#{formDisplay.idperifericDisplay}">
 <f:selectItems id="s1" value="#{formDisplay.perifericeDisplay}"
 var="item" itemValue="#{item.obiectId}"></f:selectItems>
 <f:ajax render="Nume Diagonala Id Curved producator Pret stocDisponibil stocTotal refreshrate"></f:ajax>
 </h:selectOneMenu>
 
-<h:outputLabel value="Id"></h:outputLabel>
-<h:inputText id="Id" value="#{formDisplay.perifericDisplay.obiectId}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Id"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="Id" readonly="#{formDisplay.readOnlyId}" value="#{formDisplay.perifericDisplay.obiectId}"></h:inputText>
 
-<h:outputLabel value="Diagonala Ecran"></h:outputLabel>
-<h:inputText id="Diagonala" value="#{formDisplay.perifericDisplay.diagonalaDisplayCm}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Diagonala Ecran"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="Diagonala" value="#{formDisplay.perifericDisplay.diagonalaDisplayCm}"></h:inputText>
 
-<h:outputLabel value="Nume"></h:outputLabel>
-<h:inputText id="Nume" value="#{formDisplay.perifericDisplay.obiectNume}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Nume"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="Nume" value="#{formDisplay.perifericDisplay.obiectNume}"></h:inputText>
 
-<h:outputLabel value="Curved"></h:outputLabel>
-<h:inputText id="Curved" value="#{formDisplay.perifericDisplay.displayCurved}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Curved"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="Curved" value="#{formDisplay.perifericDisplay.displayCurved}"></h:inputText>
 
-<h:outputLabel value="Producator"></h:outputLabel>
-<h:inputText id="producator" value="#{formDisplay.perifericDisplay.obiectProducator}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Producator"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="producator" value="#{formDisplay.perifericDisplay.obiectProducator}"></h:inputText>
 
-<h:outputLabel value="Refresh rate"></h:outputLabel>
-<h:inputText id="refreshrate" value="#{formDisplay.perifericDisplay.refreshRateHz}"></h:inputText>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Refresh rate"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="refreshrate" value="#{formDisplay.perifericDisplay.refreshRateHz}"></h:inputText>
 
-<h:outputLabel value="Pretul"></h:outputLabel>
-<h:inputText id="Pret" value="#{formDisplay.perifericDisplay.obiectPret}"></h:inputText>
-
-
-<h:outputLabel value="Stoc Disponibil"></h:outputLabel>
-<h:outputLabel id="stocDisponibil" value="#{formDisplay.perifericDisplay.stocDisponibil}"></h:outputLabel>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Pretul"></h:outputLabel>
+<h:inputText styleClass="form-control" style="margin:2px" id="Pret" value="#{formDisplay.perifericDisplay.obiectPret}"></h:inputText>
 
 
-<h:outputLabel value="Stoc Total"></h:outputLabel>
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Stoc Disponibil"></h:outputLabel>
+<h:outputLabel  styleClass="form-control" style="margin:2px" id="stocDisponibil" value="#{formDisplay.perifericDisplay.stocDisponibil}"></h:outputLabel>
+
+
+<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Stoc Total"></h:outputLabel>
 <h:outputLabel></h:outputLabel>
 <h:outputLabel ></h:outputLabel>
 
-<h:inputText id="stocTotal" value="#{formDisplay.perifericDisplay.stocTotal}"></h:inputText>
+<h:inputText styleClass="form-control" style="margin:2px" id="stocTotal" value="#{formDisplay.perifericDisplay.stocTotal}"></h:inputText>
 </h:panelGrid>
 
 <h:messages style = "color:red;margin:8px;" /> 

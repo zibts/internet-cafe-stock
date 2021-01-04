@@ -22,6 +22,7 @@ public class FormKeyboard {
 	private List<perifericKeyboard> perifericeKeyboard=new ArrayList<perifericKeyboard>();
 	private tipInventar tipInventar;
 	private List<tipInventar> tipuriInventare=new ArrayList<tipInventar>();
+	private Boolean readOnlyId;
 	
 	public perifericKeyboard getperifericKeyboard() {
 		return perifericKeyboard;
@@ -48,6 +49,9 @@ public class FormKeyboard {
 	public void setTipuriInventare(List<tipInventar> tipuriInventare) {
 		this.tipuriInventare = tipuriInventare;
 	}
+	public Boolean getReadOnlyId() {
+		return readOnlyId;
+	}
 
 	EntityManager em;
 	public FormKeyboard() {
@@ -58,17 +62,20 @@ public class FormKeyboard {
 	public void init() {
 		this.perifericeKeyboard=em.createQuery("select c from perifericKeyboard c").getResultList();
 		this.perifericKeyboard=this.perifericeKeyboard.get(0);
+		this.readOnlyId = this.checkIfThere(this.perifericKeyboard);
 	}
 	public void prevperifericKeyboard(ActionEvent e) {
 		Integer poz=this.perifericeKeyboard.indexOf(this.perifericKeyboard);
 		if(poz>0)
 			this.perifericKeyboard=this.perifericeKeyboard.get(poz-1);
+		this.readOnlyId = this.checkIfThere(this.perifericKeyboard);
 	}
 
 	public void nextperifericKeyboard(ActionEvent e) {
 		Integer poz=this.perifericeKeyboard.indexOf(this.perifericKeyboard);
 		if((poz+1)<this.perifericeKeyboard.size())
 			this.perifericKeyboard=this.perifericeKeyboard.get(poz+1);
+		this.readOnlyId = this.checkIfThere(this.perifericKeyboard);
 	}
 
 	public void adaugaperifericKeyboard(ActionEvent e) {
@@ -78,10 +85,12 @@ public class FormKeyboard {
 		this.perifericKeyboard.setStocTotal(0);
 		this.perifericKeyboard.setTipInventar(this.perifericeKeyboard.get(0).getTipInventar());
 		this.perifericeKeyboard.add(this.perifericKeyboard);
+		this.readOnlyId = false;
 	}
 	
 	public void salveazaperifericKeyboard(ActionEvent e) {
 		Integer intermed = this.perifericKeyboard.getObiectId();
+		this.readOnlyId = true;
 		if (!em.getTransaction().isActive()) 
 			em.getTransaction().begin();
 		
@@ -199,6 +208,14 @@ public class FormKeyboard {
 	public void setIdperifericKeyboard(Integer id){
 		if(this.em.contains(this.perifericKeyboard)) {
 			this.perifericKeyboard = em.find(perifericKeyboard.class, id);
+		}
+	}
+	
+	public Boolean checkIfThere(perifericKeyboard Keyboard) {
+		if(em.find(Keyboard.getClass(), Keyboard.getObiectId())!= null) {
+			return true;
+		}else{
+			return false;
 		}
 	}
 	

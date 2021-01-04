@@ -22,6 +22,7 @@ public class FormMobilier {
 	private List<Mobilier> mobiliere=new ArrayList<Mobilier>();
 	private tipInventar tipInventar;
 	private List<tipInventar> tipuriInventare=new ArrayList<tipInventar>();
+	private Boolean readOnlyId;
 	
 	public Mobilier getMobilier() {
 		return Mobilier;
@@ -48,6 +49,9 @@ public class FormMobilier {
 	public void setTipuriInventare(List<tipInventar> tipuriInventare) {
 		this.tipuriInventare = tipuriInventare;
 	}
+	public Boolean getReadOnlyId() {
+		return readOnlyId;
+	}
 
 	EntityManager em;
 	public FormMobilier() {
@@ -58,17 +62,20 @@ public class FormMobilier {
 	public void init() {
 		this.mobiliere=em.createQuery("select c from Mobilier c").getResultList();
 		this.Mobilier=this.mobiliere.get(0);
+		this.readOnlyId = this.checkIfThere(this.Mobilier);
 	}
 	public void prevMobilier(ActionEvent e) {
 		Integer poz=this.mobiliere.indexOf(this.Mobilier);
 		if(poz>0)
 			this.Mobilier=this.mobiliere.get(poz-1);
+		this.readOnlyId = this.checkIfThere(this.Mobilier);
 	}
 
 	public void nextMobilier(ActionEvent e) {
 		Integer poz=this.mobiliere.indexOf(this.Mobilier);
 		if((poz+1)<this.mobiliere.size())
 			this.Mobilier=this.mobiliere.get(poz+1);
+		this.readOnlyId = this.checkIfThere(this.Mobilier);
 	}
 
 	public void adaugaMobilier(ActionEvent e) {
@@ -78,10 +85,12 @@ public class FormMobilier {
 		this.Mobilier.setStocTotal(0);
 		this.Mobilier.setTipInventar(this.mobiliere.get(0).getTipInventar());
 		this.mobiliere.add(this.Mobilier);
+		this.readOnlyId = false;
 	}
 	
 	public void salveazaMobilier(ActionEvent e) {
 		Integer intermed = this.Mobilier.getObiectId();
+		this.readOnlyId = true;
 		if (!em.getTransaction().isActive()) 
 			em.getTransaction().begin();
 		
@@ -199,6 +208,14 @@ public class FormMobilier {
 	public void setIdMobilier(Integer id){
 		if(this.em.contains(this.Mobilier)) {
 			this.Mobilier = em.find(Mobilier.class, id);
+		}
+	}
+	
+	public Boolean checkIfThere(Mobilier mouse) {
+		if(em.find(mouse.getClass(), mouse.getObiectId())!= null) {
+			return true;
+		}else{
+			return false;
 		}
 	}
 	

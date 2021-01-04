@@ -15,6 +15,7 @@ import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 @ManagedBean @SessionScoped
 public class FormSala {
@@ -31,6 +32,8 @@ public class FormSala {
 			return salaCalculatoare;
 		}
 		
+		private Boolean readOnlyId;
+		
 		public Integer getIdSala () {
 			
 			return this.salaCalculatoare.getSalaId();
@@ -42,6 +45,10 @@ public class FormSala {
 			if(this.em.contains(this.salaCalculatoare)) {
 				this.salaCalculatoare = em.find(salaCalculatoare.getClass(), id);
 			}
+		}
+		
+		public Boolean getReadOnlyId() {
+			return readOnlyId;
 		}
 		//Detail
 		private DataModel<Statii> statiiInSalaDataModel;
@@ -120,6 +127,7 @@ public class FormSala {
 			Integer idxCurent = this.saliCalculatoare.indexOf(this.salaCalculatoare);
 			if (idxCurent - 1 >= 0)
 				this.salaCalculatoare = this.saliCalculatoare.get(idxCurent - 1);
+			this.readOnlyId = this.checkIfThere(this.salaCalculatoare);
 		}
 		
 		public void nextSalaCalculatoare(ActionEvent evt){
@@ -127,6 +135,7 @@ public class FormSala {
 			Integer idxCurent = this.saliCalculatoare.indexOf(this.salaCalculatoare);
 			if (idxCurent + 1 < this.saliCalculatoare.size())
 				this.salaCalculatoare = this.saliCalculatoare.get(idxCurent + 1);
+			this.readOnlyId = this.checkIfThere(this.salaCalculatoare);
 		}
 		
 		// Actiuni tranzactionale
@@ -136,26 +145,70 @@ public class FormSala {
 			this.salaCalculatoare.setDenumireSala("Introduceti denumire");
 			this.salaCalculatoare.setNrStatiiAmplasate(null);
 			this.saliCalculatoare.add(this.salaCalculatoare);
+			this.readOnlyId = false;
 		}
 		
 		public void salvareSalaCalculatoare(ActionEvent e) {
-			if (!em.getTransaction().isActive()) 
-				em.getTransaction().begin();
-			
-			if(this.em.contains(this.salaCalculatoare)) {
-				em.merge(this.salaCalculatoare);
-				em.flush();
+			try {
+				if (!em.getTransaction().isActive()) 
+					em.getTransaction().begin();
+				if(this.em.contains(salaCalculatoare)) {
+					em.merge(salaCalculatoare);
+					em.flush();
+				}
+				em.getTransaction().commit();
 			}
-			else {
-				em.persist(this.salaCalculatoare);	
+			catch(Exception ex) {
+				FacesMessage facesMsg = 
+			            new FacesMessage(FacesMessage.SEVERITY_ERROR, "EROARE SALVARE: " + ex.getMessage(), null);			
+				
+				FacesContext fc = FacesContext.getCurrentInstance();			
+				if (!em.getTransaction().isActive()) 
+					em.getTransaction().begin();
+				// Afisare mesaj
+				fc.addMessage(null, facesMsg);
+				fc.renderResponse();
+				em.getTransaction().rollback();
+			}
+			
+			try {
+				if (!em.getTransaction().isActive()) 
+					em.getTransaction().begin();
+				if(!this.em.contains(salaCalculatoare)) {
+					em.persist(salaCalculatoare);	
+				}
+				this.salaCalculatoare=this.saliCalculatoare.get(0);
+			
+				em.getTransaction().commit();
+			}
+			catch(Exception ex) {
+				FacesMessage facesMsg = 
+			            new FacesMessage(FacesMessage.SEVERITY_ERROR, "EROARE SALVARE: " + ex.getMessage(), null);			
+				
+				FacesContext fc = FacesContext.getCurrentInstance();			
+				
+				// Afisare mesaj
+				if (!em.getTransaction().isActive()) 
+					em.getTransaction().begin();
+				fc.addMessage(null, facesMsg);
+				fc.renderResponse();
+				em.getTransaction().rollback();
 			}
 			this.salaCalculatoare=this.saliCalculatoare.get(0);
-			
-			em.getTransaction().commit();
+			this.readOnlyId = true;
 		}
 		
 		
-		public void stergereSalaCalculatoare(ActionEvent evt){
+		public void stergereSalaCalculatoare(ActionEvent evt){			
+			if(this.statiiInSalaDataModel.getRowCount()!=0) {
+				
+				FacesMessage facesMsg = new FacesMessage("Asigurati-va ca in sala nu sunt calculatoare");			
+				FacesContext fc = FacesContext.getCurrentInstance();			
+				// Afisare mesaj
+				fc.addMessage(null, facesMsg);
+				fc.renderResponse();
+				return;
+			}
 			// @ Transactional --------------------
 			if (!em.getTransaction().isActive()) 
 				em.getTransaction().begin();
@@ -174,15 +227,6 @@ public class FormSala {
 		}
 		
 		public void abandon(ActionEvent evt){
-			// @ Transactional --------------------
-			if (!em.getTransaction().isActive()) 
-				em.getTransaction().begin();
-			// ----------------------------------	
-			
-			// @ Transactional --------------------
-			this.em.getTransaction().rollback();
-			// ----------------------------------
-			
 			if (this.em.contains(this.salaCalculatoare)){
 				this.em.refresh(this.salaCalculatoare);
 			}else
@@ -206,6 +250,7 @@ public class FormSala {
 		}
 		
 		public void stergeStatie(ActionEvent evt){
+			
 			// @ Transactional --------------------
 			if (!em.getTransaction().isActive()) 
 				em.getTransaction().begin();
@@ -256,6 +301,7 @@ public class FormSala {
 				Collections.sort(this.saliCalculatoare,(c1,c2) -> c1.getSalaId().compareTo(c2.getSalaId()));
 				if(!this.saliCalculatoare.contains(this.salaCalculatoare))
 					this.salaCalculatoare=this.saliCalculatoare.get(0);
+				this.readOnlyId = this.checkIfThere(this.salaCalculatoare);
 			}		
 		}
 		
@@ -280,5 +326,12 @@ public class FormSala {
 				Collections.sort(this.birouri, (c1,c2) -> c1.getObiectId().compareTo(c2.getObiectId()));
 		}
 		
+		public Boolean checkIfThere(salaCalculatoare mouse) {
+			if(em.find(mouse.getClass(), mouse.getSalaId())!= null) {
+				return true;
+			}else{
+				return false;
+			}
+		}
 
 }

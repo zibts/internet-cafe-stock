@@ -10,75 +10,76 @@ xmlns:f="http://java.sun.com/jsf/core"
 		Formular-Statii-Sali
 	</div>
 	<h:button outcome="Menu.xhtml" value="Menu" />
-	<h:form id="formSala">
-		<h:panelGrid columns="2" border="1" id="panouFormMaster">
+	<h:form id="formSala" >
+		<h:panelGrid columns="2" id="panouFormMaster" style="margin:5px">
 			<f:facet name="header">
+			<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 				<h:outputText value="Gestiunea Statiilor Din Sali"></h:outputText>
 			</f:facet>
-			<h:selectOneMenu id="cbosaliCalculatoare" value="#{formSala.idSala}">
+			<h:selectOneMenu styleClass="form-control" style="margin:2px" id="cbosaliCalculatoare" value="#{formSala.idSala}">
 				<f:selectItems value="#{formSala.saliCalculatoare}" 
 					var="item" 
 					itemLabel="#{item.salaId}" 
 					itemValue="#{item.salaId}" />
 				<f:ajax render="@form"/>
 			</h:selectOneMenu>
-			<h:panelGrid columns="2" border="1">
-				<h:commandButton id="cmdPrevious"
+			<h:panelGrid columns="2" style="margin-left:20px">
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdPrevious"
 					actionListener="#{formSala.previousSalaCalculatoare}" value="Inapoi">
 					<f:ajax render="@form"/>
 				</h:commandButton>
-				<h:commandButton id="cmdNext"
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdNext"
 					actionListener="#{formSala.nextSalaCalculatoare}" value="Inainte">
 					<f:ajax render="@form"/>
 				</h:commandButton>
 			</h:panelGrid> 
 			
-			<h:outputText value="Id:"></h:outputText>
-			<h:inputText id="id" value="#{formSala.salaCalculatoare.salaId}"
+			<h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Id:"></h:outputText>
+			<h:inputText styleClass="form-control" style="margin:2px" id="id" readonly="#{formSala.readOnlyId}" value="#{formSala.salaCalculatoare.salaId}"
 				validatorMessage="IDul este obligatoriu!">
 				<f:validateDoubleRange minimum="0"/>
 			</h:inputText>
 			
-			<h:outputText value="Denumire Sala"/>
-			<h:inputText id="denumireSalaCalculatoare"
+			<h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Denumire Sala"/>
+			<h:inputText styleClass="form-control" style="margin:2px" id="denumireSalaCalculatoare"
 				value="#{formSala.salaCalculatoare.denumireSala}">
 			</h:inputText>
 			
-			<h:outputText value="Numar Statii Amplasate"/>
-			<h:inputText id="nrStatiiAmplasate"
+			<h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Numar Statii Amplasate"/>
+			<h:inputText styleClass="form-control" style="margin:2px" id="nrStatiiAmplasate"
 				value="#{formSala.salaCalculatoare.nrStatiiAmplasate}" readonly="true"/>
 				
-			<h:outputText value="Numar Potential de Statii"/>
-			<h:inputText id="nrStatiiPosibile"
+			<h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Numar Potential de Statii"/>
+			<h:inputText styleClass="form-control" style="margin:2px" id="nrStatiiPosibile"
 				value="#{formSala.salaCalculatoare.nrStatiiPosibile}"/>
 				
-			<h:panelGrid columns="2" border="1">
-				<h:commandButton id="cmdAdaugare"
+			<h:panelGrid columns="2" >
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAdaugare"
 					actionListener="#{formSala.adaugareSalaCalculatoare}" value="Adaugare"/>
-				<h:commandButton id="cmdSterge"
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSterge"
 					actionListener="#{formSala.stergereSalaCalculatoare}" value="Stergere"/>
 			</h:panelGrid>
-			<h:panelGrid columns="2" border="1">
-				<h:commandButton id="cmdAbandon"
+			<h:panelGrid columns="2">
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAbandon"
 					actionListener="#{formSala.abandon}" value="Abandon"/>
-				<h:commandButton id="cmdSalvare"
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSalvare"
 					actionListener="#{formSala.salvareSalaCalculatoare}" value="Salvare"/>
 			</h:panelGrid>
 		</h:panelGrid>
 		
-		<h:dataTable id = "statieGrid" border="1"
+		<h:dataTable id = "statieGrid" style="border:2px solid gray; margin:10px;"
 			value="#{formSala.statiiInSalaDataModel}" var="statiiInSala">
 			<h:column>
-				<f:facet name="header"><h:outputText value="Id"/></f:facet>
-			<h:inputText id="idSala" value="#{statiiInSala.statieId}"
+				<f:facet name="header"><h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Id"/></f:facet>
+			<h:inputText styleClass="form-control" style="margin:2px" id="idSala" value="#{statiiInSala.statieId}"
 				validatorMessage="IDul este obligatoriu!">
 				<f:validateDoubleRange minimum="0"/>
 				<f:ajax/>
 			</h:inputText>
 			</h:column>
 			<h:column>
-				<f:facet name="header"> <h:outputText value="Calculator"/> </f:facet>
-				<h:selectOneMenu id="cboCalculator" value="#{formSala.idCalculator}" >
+				<f:facet name="header"> <h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Calculator"/> </f:facet>
+				<h:selectOneMenu styleClass="form-control" style="margin:5" id="cboCalculator" value="#{formSala.idCalculator}" >
 					<f:selectItems value="#{formSala.calculatoare}" var="item" 
 						itemValue="#{item.obiectId}" 
 						itemLabel="#{item.obiectNume}"/>
@@ -86,8 +87,8 @@ xmlns:f="http://java.sun.com/jsf/core"
 				</h:selectOneMenu>
 			</h:column>
 			<h:column>
-				<f:facet name="header"> <h:outputText value="Display"/> </f:facet>
-				<h:selectOneMenu id="cboDisplay" value="#{formSala.idDisplay}" >
+				<f:facet name="header"> <h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Display"/> </f:facet>
+				<h:selectOneMenu styleClass="form-control" style="margin:5" id="cboDisplay" value="#{formSala.idDisplay}" >
 					<f:selectItems value="#{formSala.perifericeDisplay}" var="item" 
 						itemValue="#{item.obiectId}" 
 						itemLabel="#{item.obiectNume}"/>
@@ -95,8 +96,8 @@ xmlns:f="http://java.sun.com/jsf/core"
 				</h:selectOneMenu>
 			</h:column>		
 			<h:column>
-				<f:facet name="header"> <h:outputText value="Keyboard"/> </f:facet>
-				<h:selectOneMenu id="cboKeyboard" value="#{formSala.idKeyboard}" >
+				<f:facet name="header"> <h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Keyboard"/> </f:facet>
+				<h:selectOneMenu styleClass="form-control" style="margin:5" id="cboKeyboard" value="#{formSala.idKeyboard}" >
 					<f:selectItems value="#{formSala.perifericeKeyboard}" var="item" 
 						itemValue="#{item.obiectId}" 
 						itemLabel="#{item.obiectNume}"/>
@@ -104,8 +105,8 @@ xmlns:f="http://java.sun.com/jsf/core"
 				</h:selectOneMenu>
 			</h:column>	
 						<h:column>
-				<f:facet name="header"> <h:outputText value="Mouse"/> </f:facet>
-				<h:selectOneMenu id="cboMouse" value="#{formSala.idMouse}" >
+				<f:facet name="header"> <h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Mouse"/> </f:facet>
+				<h:selectOneMenu styleClass="form-control" style="margin:5" id="cboMouse" value="#{formSala.idMouse}" >
 					<f:selectItems value="#{formSala.perifericeMouse}" var="item" 
 						itemValue="#{item.obiectId}" 
 						itemLabel="#{item.obiectNume}"/>
@@ -114,8 +115,8 @@ xmlns:f="http://java.sun.com/jsf/core"
 			</h:column>	
 			
 			<h:column>
-				<f:facet name="header"> <h:outputText value="Casti"/> </f:facet>
-				<h:selectOneMenu id="cboCasti" value="#{formSala.idCasti}" >
+				<f:facet name="header"> <h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Casti"/> </f:facet>
+				<h:selectOneMenu styleClass="form-control" style="margin:5" id="cboCasti" value="#{formSala.idCasti}" >
 					<f:selectItems value="#{formSala.perifericeCasti}" var="item" 
 						itemValue="#{item.obiectId}" 
 						itemLabel="#{item.obiectNume}"/>
@@ -125,23 +126,20 @@ xmlns:f="http://java.sun.com/jsf/core"
 			
 			<h:column>
 				<f:facet name="header"><h:outputText value="Sterge"/></f:facet>
-				<h:commandButton id="cmdStergeArticol"
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdStergeArticol"
 					actionListener="#{formSala.stergeStatie}" value="Sterge">
 					<f:ajax render="statieGrid"/>
 				</h:commandButton>
 			</h:column>
 			<h:column>
 				<f:facet name="header"><h:outputText value="Salveaza"/></f:facet>
-				<h:commandButton id="cmdSalveazaArticol"
+				<h:commandButton  styleClass="btn btn-primary" style="margin:4px" id="cmdSalveazaArticol"
 					actionListener="#{formSala.salveazaStatie}" value="Salveaza">
 					<f:ajax render="statieGrid"/>
 				</h:commandButton>
 			</h:column>
-			<f:facet name="footer"> 
-				<h:outputText value="Total comanda"/>
-			</f:facet>
 		</h:dataTable>
-		<h:commandButton id="cmdAdaugaArticol"
+		<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAdaugaArticol"
 			actionListener="#{formSala.adaugaStatie}" value="Adauga articol"/>
 						
 		<h:messages/>

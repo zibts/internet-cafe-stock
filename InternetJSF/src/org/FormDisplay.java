@@ -22,6 +22,7 @@ public class FormDisplay {
 	private List<perifericDisplay> perifericeDisplay=new ArrayList<perifericDisplay>();
 	private tipInventar tipInventar;
 	private List<tipInventar> tipuriInventare=new ArrayList<tipInventar>();
+	private Boolean readOnlyId;
 	
 	public perifericDisplay getperifericDisplay() {
 		return perifericDisplay;
@@ -48,6 +49,9 @@ public class FormDisplay {
 	public void setTipuriInventare(List<tipInventar> tipuriInventare) {
 		this.tipuriInventare = tipuriInventare;
 	}
+	public Boolean getReadOnlyId() {
+		return readOnlyId;
+	}
 
 	EntityManager em;
 	public FormDisplay() {
@@ -58,17 +62,20 @@ public class FormDisplay {
 	public void init() {
 		this.perifericeDisplay=em.createQuery("select c from perifericDisplay c").getResultList();
 		this.perifericDisplay=this.perifericeDisplay.get(0);
+		this.readOnlyId = this.checkIfThere(this.perifericDisplay);
 	}
 	public void prevperifericDisplay(ActionEvent e) {
 		Integer poz=this.perifericeDisplay.indexOf(this.perifericDisplay);
 		if(poz>0)
 			this.perifericDisplay=this.perifericeDisplay.get(poz-1);
+		this.readOnlyId = this.checkIfThere(this.perifericDisplay);
 	}
 
 	public void nextperifericDisplay(ActionEvent e) {
 		Integer poz=this.perifericeDisplay.indexOf(this.perifericDisplay);
 		if((poz+1)<this.perifericeDisplay.size())
 			this.perifericDisplay=this.perifericeDisplay.get(poz+1);
+		this.readOnlyId = this.checkIfThere(this.perifericDisplay);
 	}
 
 	public void adaugaperifericDisplay(ActionEvent e) {
@@ -78,10 +85,12 @@ public class FormDisplay {
 		this.perifericDisplay.setStocTotal(0);
 		this.perifericDisplay.setTipInventar(this.perifericeDisplay.get(0).getTipInventar());
 		this.perifericeDisplay.add(this.perifericDisplay);
+		this.readOnlyId = false;
 	}
 	
 	public void salveazaperifericDisplay(ActionEvent e) {
 		Integer intermed = this.perifericDisplay.getObiectId();
+		this.readOnlyId = true;
 		if (!em.getTransaction().isActive()) 
 			em.getTransaction().begin();
 		
@@ -199,6 +208,14 @@ public class FormDisplay {
 	public void setIdperifericDisplay(Integer id){
 		if(this.em.contains(this.perifericDisplay)) {
 			this.perifericDisplay = em.find(perifericDisplay.class, id);
+		}
+	}
+	
+	public Boolean checkIfThere(perifericDisplay Display) {
+		if(em.find(Display.getClass(), Display.getObiectId())!= null) {
+			return true;
+		}else{
+			return false;
 		}
 	}
 	

@@ -22,6 +22,7 @@ public class FormMouse {
 	private List<perifericMouse> perifericeMouse=new ArrayList<perifericMouse>();
 	private tipInventar tipInventar;
 	private List<tipInventar> tipuriInventare=new ArrayList<tipInventar>();
+	private Boolean readOnlyId;
 	
 	public perifericMouse getperifericMouse() {
 		return perifericMouse;
@@ -48,6 +49,13 @@ public class FormMouse {
 	public void setTipuriInventare(List<tipInventar> tipuriInventare) {
 		this.tipuriInventare = tipuriInventare;
 	}
+	
+	public Boolean getReadOnlyId() {
+		return readOnlyId;
+	}
+	
+	
+
 
 	EntityManager em;
 	public FormMouse() {
@@ -58,17 +66,20 @@ public class FormMouse {
 	public void init() {
 		this.perifericeMouse=em.createQuery("select c from perifericMouse c").getResultList();
 		this.perifericMouse=this.perifericeMouse.get(0);
+		this.readOnlyId = this.checkIfThere(this.perifericMouse);
 	}
 	public void prevperifericMouse(ActionEvent e) {
 		Integer poz=this.perifericeMouse.indexOf(this.perifericMouse);
 		if(poz>0)
 			this.perifericMouse=this.perifericeMouse.get(poz-1);
+		this.readOnlyId = this.checkIfThere(this.perifericMouse);
 	}
 
 	public void nextperifericMouse(ActionEvent e) {
 		Integer poz=this.perifericeMouse.indexOf(this.perifericMouse);
 		if((poz+1)<this.perifericeMouse.size())
 			this.perifericMouse=this.perifericeMouse.get(poz+1);
+		this.readOnlyId = this.checkIfThere(this.perifericMouse);
 	}
 
 	public void adaugaperifericMouse(ActionEvent e) {
@@ -78,10 +89,12 @@ public class FormMouse {
 		this.perifericMouse.setStocTotal(0);
 		this.perifericMouse.setTipInventar(this.perifericeMouse.get(0).getTipInventar());
 		this.perifericeMouse.add(this.perifericMouse);
+		this.readOnlyId = false;
 	}
 	
 	public void salveazaperifericMouse(ActionEvent e) {
 		Integer intermed = this.perifericMouse.getObiectId();
+		this.readOnlyId = true;
 		if (!em.getTransaction().isActive()) 
 			em.getTransaction().begin();
 		
@@ -199,6 +212,14 @@ public class FormMouse {
 	public void setIdperifericMouse(Integer id){
 		if(this.em.contains(this.perifericMouse)) {
 			this.perifericMouse = em.find(perifericMouse.class, id);
+		}
+	}
+	
+	public Boolean checkIfThere(perifericMouse mouse) {
+		if(em.find(mouse.getClass(), mouse.getObiectId())!= null) {
+			return true;
+		}else{
+			return false;
 		}
 	}
 	
