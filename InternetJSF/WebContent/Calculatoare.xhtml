@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+>
+<body>
+<div style="width:100%;font-size:36px;line-height:48px;background-color:navy;color:white">Formular gestionare calculatoare</div>
+<h:button outcome="Menu.xhtml" value="Menu" />
+<h:form id="form1">
+
+<h:panelGrid id="p1" columns="4" border="1">
+<f:facet name="header" >
+<h:outputText value="Formular calculatori" style="font-size: 18px"></h:outputText>
+</f:facet>
+<h:panelGrid id="p2" columns="2">
+<h:commandButton id="prevC" value="Previous" actionListener="#{formCalculatoare.prevcalculator}"></h:commandButton>
+<h:commandButton id="nextC" value="Next" actionListener="#{formCalculatoare.nextcalculator}"></h:commandButton>
+</h:panelGrid>
+<h:panelGrid id="p3" columns="2">
+<h:commandButton id="cmdAdauga" value="Adauga" actionListener="#{formCalculatoare.adaugacalculator}"></h:commandButton>
+<h:commandButton id="cmdSterge" value="Sterge" actionListener="#{formCalculatoare.stergecalculator}"></h:commandButton>
+</h:panelGrid>
+<h:panelGrid id="p4" columns="2">
+<h:commandButton id="cmdAbandon" value="Abandon" actionListener="#{formCalculatoare.abandon}"></h:commandButton>
+<h:commandButton id="cmdSalveaza" value="Salveaza" actionListener="#{formCalculatoare.salveazacalculator}"></h:commandButton>
+</h:panelGrid>
+<h:selectOneMenu value="#{formCalculatoare.idCalculator}">
+<f:selectItems id="s1" value="#{formCalculatoare.calculatoare}"
+var="item" itemValue="#{item.obiectId}"></f:selectItems>
+<f:ajax render="Nume Procesor Id Ram producator TipStoc Pret CStocare video stocDisponibil stocTotal"></f:ajax>
+</h:selectOneMenu>
+
+<h:outputLabel value="Id"></h:outputLabel>
+<h:inputText id="Id" value="#{formCalculatoare.calculator.obiectId}"></h:inputText>
+
+<h:outputLabel value="Procesor"></h:outputLabel>
+<h:inputText id="Procesor" value="#{formCalculatoare.calculator.procesor}"></h:inputText>
+
+<h:outputLabel value="Nume"></h:outputLabel>
+<h:inputText id="Nume" value="#{formCalculatoare.calculator.obiectNume}"></h:inputText>
+
+<h:outputLabel value="Ram"></h:outputLabel>
+<h:inputText id="Ram" value="#{formCalculatoare.calculator.memorieRamMb}"></h:inputText>
+
+<h:outputLabel value="Producator"></h:outputLabel>
+<h:inputText id="producator" value="#{formCalculatoare.calculator.obiectProducator}"></h:inputText>
+
+<h:outputLabel value="TipStocare"></h:outputLabel>
+<h:inputText id="TipStoc" value="#{formCalculatoare.calculator.tipStocare}"></h:inputText>
+
+<h:outputLabel value="Pretul"></h:outputLabel>
+<h:inputText id="Pret" value="#{formCalculatoare.calculator.obiectPret}"></h:inputText>
+
+<h:outputLabel value="CapacitateStocare"></h:outputLabel>
+<h:inputText id="CStocare" value="#{formCalculatoare.calculator.capacitateStogareGb}"></h:inputText>
+
+
+<h:outputLabel value="Card Video"></h:outputLabel>
+<h:inputText id="video" value="#{formCalculatoare.calculator.cardVideo}"></h:inputText>
+
+<h:outputLabel value="Stoc Disponibil"></h:outputLabel>
+<h:outputLabel id="stocDisponibil" value="#{formCalculatoare.calculator.stocDisponibil}"></h:outputLabel>
+
+
+<h:outputLabel value="Stoc Total"></h:outputLabel>
+<h:outputLabel value=""></h:outputLabel>
+<h:outputLabel value=""></h:outputLabel>
+<h:inputText id="stocTotal" value="#{formCalculatoare.calculator.stocTotal}"></h:inputText>
+</h:panelGrid>
+
+
+</h:form>
+
+
+</body>
+</html>
+

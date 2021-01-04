@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+>
+<body>
+<div style="width:100%;font-size:36px;line-height:48px;background-color:navy;color:white">Formular gestionare Mouse</div>
+<h:button outcome="Menu.xhtml" value="Menu" />
+<h:form id="form1">
+
+<h:panelGrid id="p1" columns="4" border="1">
+<f:facet name="header" >
+<h:outputText value="Formular Gestionare Mouse" style="font-size: 18px"></h:outputText>
+
+</f:facet>
+<h:panelGrid id="p2" columns="2">
+<h:commandButton id="prevC" value="Previous" actionListener="#{formMouse.prevperifericMouse}"></h:commandButton>
+<h:commandButton id="nextC" value="Next" actionListener="#{formMouse.nextperifericMouse}"></h:commandButton>
+</h:panelGrid>
+<h:panelGrid id="p3" columns="2">
+<h:commandButton id="cmdAdauga" value="Adauga" actionListener="#{formMouse.adaugaperifericMouse}"></h:commandButton>
+<h:commandButton id="cmdSterge" value="Sterge" actionListener="#{formMouse.stergeperifericMouse}"></h:commandButton>
+</h:panelGrid>
+<h:panelGrid id="p4" columns="2">
+<h:commandButton id="cmdAbandon" value="Abandon" actionListener="#{formMouse.abandon}"></h:commandButton>
+<h:commandButton id="cmdSalveaza" value="Salveaza" actionListener="#{formMouse.salveazaperifericMouse}"></h:commandButton>
+</h:panelGrid>
+<h:selectOneMenu value="#{formMouse.idperifericMouse}">
+<f:selectItems id="s1" value="#{formMouse.perifericeMouse}"
+var="item" itemValue="#{item.obiectId}"></f:selectItems>
+<f:ajax render="Nume DPI Id Greutatea producator Pret stocDisponibil stocTotal"></f:ajax>
+</h:selectOneMenu>
+
+<h:outputLabel value="Id"></h:outputLabel>
+<h:inputText id="Id" value="#{formMouse.perifericMouse.obiectId}"></h:inputText>
+
+<h:outputLabel value="DPI"></h:outputLabel>
+<h:inputText id="DPI" value="#{formMouse.perifericMouse.maxDpi}"></h:inputText>
+
+<h:outputLabel value="Nume"></h:outputLabel>
+<h:inputText id="Nume" value="#{formMouse.perifericMouse.obiectNume}"></h:inputText>
+
+<h:outputLabel value="Greutatea"></h:outputLabel>
+<h:inputText id="Greutatea" value="#{formMouse.perifericMouse.greutateG}"></h:inputText>
+
+<h:outputLabel value="Producator"></h:outputLabel>
+<h:inputText id="producator" value="#{formMouse.perifericMouse.obiectProducator}"></h:inputText>
+
+
+<h:outputLabel value="Pretul"></h:outputLabel>
+<h:inputText id="Pret" value="#{formMouse.perifericMouse.obiectPret}"></h:inputText>
+
+
+<h:outputLabel value="Stoc Disponibil"></h:outputLabel>
+<h:outputLabel id="stocDisponibil" value="#{formMouse.perifericMouse.stocDisponibil}"></h:outputLabel>
+
+
+<h:outputLabel value="Stoc Total"></h:outputLabel>
+
+<h:inputText id="stocTotal" value="#{formMouse.perifericMouse.stocTotal}"></h:inputText>
+</h:panelGrid>
+
+<h:messages style = "color:red;margin:8px;" /> 
+</h:form>
+
+
+</body>
+</html>

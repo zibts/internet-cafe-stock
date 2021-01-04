@@ -5,6 +5,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.AUTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import static javax.persistence.CascadeType.ALL;
 
@@ -17,8 +18,8 @@ public class salaCalculatoare {
 	private Integer nrStatiiPosibile;
 	private Integer nrStatiiAmplasate;
 	
-	@OneToMany(mappedBy = "salaStatieAmplasataId", cascade = ALL)
-	private List<Statii> statiiInSala;
+	@OneToMany(mappedBy = "salaStatieAmplasataId", cascade = ALL, orphanRemoval = true)
+	private List<Statii> statiiInSala = new ArrayList<Statii>();
 	
 //	
 	public salaCalculatoare(Integer salaId, String denumireSala, Integer nrStatiiPosibile) {

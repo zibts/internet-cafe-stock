@@ -1,16 +1,24 @@
 package org;
 
+import static javax.persistence.CascadeType.ALL;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 public class perifericKeyboard extends Periferice{
 	private Boolean prezentBacklit;
 	private Boolean esteMehanica;
+	@OneToMany(mappedBy = "keyboardStatieId", cascade = ALL, orphanRemoval = true)
+	private List<Statii> statiiCuKeyboard = new ArrayList<Statii>();
 	
 	public perifericKeyboard(Integer obiectId, String obiectNume, String obiectProducator, double obiectPret,
-			Integer stocDisponibil, Integer stocTotal, org.tipInventar tipInventar, String perifericTip,
+			 Integer stocTotal, org.tipInventar tipInventar, String perifericTip,
 			String perifericPort, Boolean prezentBacklit, Boolean esteMehanica) {
-		super(obiectId, obiectNume, obiectProducator, obiectPret, stocDisponibil, stocTotal, tipInventar, perifericTip,
+		super(obiectId, obiectNume, obiectProducator, obiectPret, stocTotal, tipInventar, perifericTip,
 				perifericPort);
 		this.prezentBacklit = prezentBacklit;
 		this.esteMehanica = esteMehanica;
@@ -34,6 +42,10 @@ public class perifericKeyboard extends Periferice{
 
 	public void setEsteMehanica(Boolean esteMehanica) {
 		this.esteMehanica = esteMehanica;
+	}
+
+	public List<Statii> getStatiiCuKeyboard() {
+		return statiiCuKeyboard;
 	}
 
 	@Override
@@ -72,5 +84,8 @@ public class perifericKeyboard extends Periferice{
 		return ""+ this.getObiectId() +" "+ this.getObiectNume()+" "+this.getObiectProducator()+" "+ this.getObiectPret()+" "+ this.getStocDisponibil()+" "+this.getPerifericTip()+" "+this.getPerifericPort()+" " +"perifericKeyboard [prezentBacklit=" + prezentBacklit + ", esteMehanica=" + esteMehanica + "]";
 	}
 	
+	public void seteazaKeyboardLaStatie(Statii s) {
+		s.setKeyboardStatieId(this);
+	}
 
 }

@@ -3,6 +3,7 @@ package org;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class tipInventar {
 	private String descriereCategorie;
 	
 	@OneToMany(mappedBy = "tipInventar", cascade = ALL)
-	private List<Inventar> obiecteInventar;
+	private List<Inventar> obiecteInventar = new ArrayList<Inventar>();
 
 	//Constructor
 	public tipInventar(Integer tipId, String nume, String descriereCategorie) {

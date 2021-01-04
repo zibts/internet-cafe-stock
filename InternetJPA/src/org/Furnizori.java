@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.GeneratedValue;
@@ -25,8 +26,8 @@ public class Furnizori {
 	
 	private Boolean furnizorLivrare;
 	
-	@OneToMany(mappedBy = "furnizor", cascade = ALL)
-	private List<furnizoriOferta> furnizoriOfertanti;
+	@OneToMany(mappedBy = "furnizor", cascade = ALL, orphanRemoval = true)
+	private List<furnizoriOferta> furnizoriOfertanti=new ArrayList<furnizoriOferta>();
 
 	//Constructor
 	public Furnizori(Integer furnizorId, String furnizorNume, String furnizorAdresa, String furnizorOras,

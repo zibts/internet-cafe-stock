@@ -1,16 +1,26 @@
 package org;
 
+import static javax.persistence.CascadeType.ALL;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity 
 public class perifericCasti extends Periferice {
 	
 	private Boolean stereo;
 	private Boolean castiMicrofon;
+	
+	@OneToMany(mappedBy = "castiStatieId", cascade = ALL, orphanRemoval = true)
+	private List<Statii> statiiCuCasti=new ArrayList<Statii>();
+	
 	public perifericCasti(Integer obiectId, String obiectNume, String obiectProducator, double obiectPret,
-			Integer stocDisponibil, Integer stocTotal, org.tipInventar tipInventar, String perifericTip,
+			 Integer stocTotal, org.tipInventar tipInventar, String perifericTip,
 			String perifericPort, Boolean stereo, Boolean castiMicrofon) {
-		super(obiectId, obiectNume, obiectProducator, obiectPret, stocDisponibil, stocTotal, tipInventar, perifericTip,
+		super(obiectId, obiectNume, obiectProducator, obiectPret, stocTotal, tipInventar, perifericTip,
 				perifericPort);
 		this.stereo = stereo;
 		this.castiMicrofon = castiMicrofon;
@@ -29,6 +39,9 @@ public class perifericCasti extends Periferice {
 	}
 	public void setCastiMicrofon(Boolean castiMicrofon) {
 		this.castiMicrofon = castiMicrofon;
+	}
+	public List<Statii> getStatiiCuCasti() {
+		return statiiCuCasti;
 	}
 	@Override
 	public int hashCode() {
@@ -64,7 +77,9 @@ public class perifericCasti extends Periferice {
 		return ""+ this.getObiectId() +" "+ this.getObiectNume()+" "+this.getObiectProducator()+" "+ this.getObiectPret()+" "+ this.getStocDisponibil()+" "+this.getPerifericTip()+" "+this.getPerifericPort()+" " +"perifericCasti [stereo=" + stereo + ", castiMicrofon=" + castiMicrofon + "]";
 	}
 	
-	
+	public void seteazaCastiLaStatie(Statii s) {
+		s.setCastiStatieId(this);
+	}
 	
 
 }

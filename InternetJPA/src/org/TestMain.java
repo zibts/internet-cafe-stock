@@ -17,14 +17,14 @@ public class TestMain {
 		t1.getTipId();
 		System.out.println(t1.toString());
 		
-		Mobilier m1=new Mobilier(2,"Masa","eMag",20,2,2,t2,"Masa","Lemn");
-		Mobilier m2=new Mobilier(7,"Scaun","eMag",20,2,2,t2,"Scaun","Lemn si piele");
-		calculator comp1=new calculator(1,"APX-20","Dell",20,2,2,t3,"Intel",8000,"RTX2060","SSD",20);
-		calculator comp2=new calculator(8,"APX-20","Dell",20,2,2,t3,"Intel",8000,"RTX2060","SSD",20);
-		perifericCasti casti1=new perifericCasti(3,"LogitechG20","Logitech",20,2,2,t2,"Casti","USB",true,true);
-		perifericDisplay display1=new perifericDisplay(4,"Samsung-XPS130","Samsung",20,2,2,t2,"Display","HDMI",21,120,true);
-		perifericMouse mouse1=new perifericMouse(5,"Logitech G403","Logitech",20,2,2,t2,"Mouse","USB",2500.0,20.0);
-		perifericKeyboard keyboard1=new perifericKeyboard(6,"ApexDragons","Razer",20,2,2,t2,"Keyboard","Bluetooth",true,true);
+		Mobilier m1=new Mobilier(2,"Masa","eMag",20,2,t2,"Gaming","Lemn","Scaun de gaming si Masa ce se Ridica");
+		Mobilier m2=new Mobilier(7,"Scaun","eMag",20,2,t2,"Simplu","Lemn si piele","Scaun simplu si Masa simpla");
+		calculator comp1=new calculator(1,"APX-20","Dell",20,2,t3,"Intel",8000,"RTX2060","SSD",20);
+		calculator comp2=new calculator(8,"APX-20","Dell",20,2,t3,"Intel",8000,"RTX2060","SSD",20);
+		perifericCasti casti1=new perifericCasti(3,"LogitechG20","Logitech",20,2,t2,"Casti","USB",true,true);
+		perifericDisplay display1=new perifericDisplay(4,"Samsung-XPS130","Samsung",20,2,t2,"Display","HDMI",21,120,true);
+		perifericMouse mouse1=new perifericMouse(5,"Logitech G403","Logitech",20,2,t2,"Mouse","USB",2500.0,20.0);
+		perifericKeyboard keyboard1=new perifericKeyboard(6,"ApexDragons","Razer",20,2,t2,"Keyboard","Bluetooth",true,true);
 		
 		
 		salaCalculatoare sala1 = new salaCalculatoare(1,"Gaming",10);
@@ -36,13 +36,27 @@ public class TestMain {
 		
 		furnizoriOferta oferta1 = new furnizoriOferta(f1,casti1,200,20);
 		
-		Statii s1 = new Statii(1,sala1, comp2, keyboard1, mouse1, display1, casti1, m2);
+		Statii s1 = new Statii();
+		s1.setSalaStatieAmplasataId(sala1);
+		comp2.seteazaCalculatorLaStatie(s1); 
+		s1.setKeyboardStatieId(keyboard1);
+		s1.setMouseStatieId(mouse1);
+		s1.setDisplayStatieId(display1);
+		s1.setCastiStatieId(casti1);
+		s1.setBirouStatie(m2);
 		Statii s2 = new Statii(2,sala1, comp1, keyboard1, mouse1, display1, casti1, m2);
 		
-		System.out.println(s1.getInventarInStatie());
+		
 		EntityManagerFactory emf=Persistence.createEntityManagerFactory("InternetJPA");
 		EntityManager em=emf.createEntityManager();
 		
+		System.out.println(s1.getCalculatorStatieId());
+		System.out.println(comp2.getStatiiCuCalculatoare());
+		s1.setCalculatorStatieId(comp1);
+		System.out.println(comp1.getStatiiCuCalculatoare());
+		System.out.println(comp2.getStatiiCuCalculatoare());
+		System.out.println(comp1.getStocDisponibil());
+		System.out.println(comp2.getStocDisponibil());
 		//Curatire Baze de date
 //		em.getTransaction().begin();
 //		em.createQuery("DELETE FROM Statii").executeUpdate();
@@ -79,7 +93,7 @@ public class TestMain {
 		em.persist(s1);
 		em.persist(s2);
 		em.getTransaction().commit();
-//		
+////		
 		//Stergere
 //		em.getTransaction().begin();
 //		tipInventar removeInventar = (tipInventar) em.

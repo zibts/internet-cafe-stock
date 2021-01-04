@@ -1,6 +1,12 @@
 package org;
 
+import static javax.persistence.CascadeType.ALL;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 @Entity
 public class perifericDisplay extends Periferice {
@@ -9,10 +15,13 @@ public class perifericDisplay extends Periferice {
 	private Integer refreshRateHz;
 	private Boolean displayCurved;
 	
+	@OneToMany(mappedBy = "displayStatieId", cascade = ALL, orphanRemoval = true)
+	private List<Statii> statiiCuDisplay = new ArrayList<Statii>();
+	
 	public perifericDisplay(Integer obiectId, String obiectNume, String obiectProducator, double obiectPret,
-			Integer stocDisponibil, Integer stocTotal, org.tipInventar tipInventar, String perifericTip,
+			 Integer stocTotal, org.tipInventar tipInventar, String perifericTip,
 			String perifericPort, double diagonalaDisplayCm, Integer refreshRateHz, Boolean displayCurved) {
-		super(obiectId, obiectNume, obiectProducator, obiectPret, stocDisponibil, stocTotal, tipInventar, perifericTip,
+		super(obiectId, obiectNume, obiectProducator, obiectPret, stocTotal, tipInventar, perifericTip,
 				perifericPort);
 		this.diagonalaDisplayCm = diagonalaDisplayCm;
 		this.refreshRateHz = refreshRateHz;
@@ -38,6 +47,9 @@ public class perifericDisplay extends Periferice {
 	}
 	public void setDisplayCurved(Boolean displayCurved) {
 		this.displayCurved = displayCurved;
+	}
+	public List<Statii> getStatiiCuDisplay() {
+		return statiiCuDisplay;
 	}
 	@Override
 	public int hashCode() {
@@ -79,4 +91,7 @@ public class perifericDisplay extends Periferice {
 				+ ", displayCurved=" + displayCurved + "]";
 	}
 
+	public void seteazaDisplayLaStatie(Statii s) {
+		s.setDisplayStatieId(this);
+	}
 }

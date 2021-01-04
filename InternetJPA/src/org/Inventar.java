@@ -6,6 +6,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static javax.persistence.InheritanceType.JOINED;
@@ -14,6 +16,9 @@ import static javax.persistence.GenerationType.AUTO;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
+import org.eclipse.persistence.annotations.JoinFetch;
+import static org.eclipse.persistence.annotations.JoinFetchType.INNER;
 
 @Entity
 @Inheritance(strategy = JOINED)
@@ -31,43 +36,25 @@ public class Inventar {
 	@JoinColumn(name="tipId")
 	private tipInventar tipInventar;
 	
-	@OneToMany(mappedBy = "obiectId", cascade = ALL)
-	private List<stocInVanzare> obiecteInVanzare;
+	@OneToMany(mappedBy = "obiectId", orphanRemoval = true, cascade = ALL)
+	private List<stocInVanzare> obiecteInVanzare = new ArrayList<stocInVanzare>();
 	
-	@OneToMany(mappedBy = "obiect", cascade = ALL)
-	private List<furnizoriOferta> obiecteOferite;
-
-	@OneToMany(mappedBy = "calculatorStatieId", cascade = ALL)
-	private List<Statii> statiiCuCalculatoare;
-
-	@OneToMany(mappedBy = "keyboardStatieId", cascade = ALL)
-	private List<Statii> statiiCuKeyboard;
-	
-	@OneToMany(mappedBy = "mouseStatieId", cascade = ALL)
-	private List<Statii> statiiCuMouse;
-
-	@OneToMany(mappedBy = "displayStatieId", cascade = ALL)
-	private List<Statii> statiiCuDisplay;
-	
-	@OneToMany(mappedBy = "castiStatieId", cascade = ALL)
-	private List<Statii> statiiCuCasti;
-	
-	@OneToMany(mappedBy = "masaStatie", cascade = ALL)
-	private List<Statii> statiiCuBirou;
+	@OneToMany(mappedBy = "obiect", orphanRemoval = true, cascade = ALL)
+	private List<furnizoriOferta> obiecteOferite=new ArrayList<furnizoriOferta>();
 	
 	@ManyToMany(mappedBy= "inventarInStatie", cascade = ALL)
-	private List<Statii> statiiAmplasate;
+	private List<Statii> statiiAmplasate = new ArrayList<Statii>() ;
 	
 	protected Inventar(Integer obiectId, String obiectNume, String obiectProducator, double obiectPret,
-			Integer stocDisponibil, Integer stocTotal, org.tipInventar tipInventar) {
+			 Integer stocTotal, org.tipInventar tipInventar) {
 		super();
 		this.obiectId = obiectId;
 		this.obiectNume = obiectNume;
 		this.obiectProducator = obiectProducator;
 		this.obiectPret = obiectPret;
-		this.stocDisponibil = stocDisponibil;
 		this.stocTotal = stocTotal;
 		this.tipInventar = tipInventar;
+		this.stocDisponibil=this.stocTotal;
 	}
 	
 	public Inventar() {
@@ -111,7 +98,7 @@ public class Inventar {
 	}
 
 	public void setStocDisponibil(Integer stocDisponibil) {
-		this.stocDisponibil = stocDisponibil;
+		this.stocDisponibil=stocDisponibil;
 	}
 
 	public Integer getStocTotal() {
@@ -129,38 +116,13 @@ public class Inventar {
 	public void setTipInventar(tipInventar tipInventar) {
 		this.tipInventar = tipInventar;
 	}
-
-	public List<stocInVanzare> getObiecteInVanzare() {
-		return obiecteInVanzare;
-	}
-
-
-	public List<furnizoriOferta> getObiecteOferite() {
-		return obiecteOferite;
-	}
 	
-	public List<Statii> getStatiiCuCalculatoare() {
-		return statiiCuCalculatoare;
+	public List<Statii> getStatiiAmplasate() {
+		return statiiAmplasate;
 	}
 
-	public List<Statii> getStatiiCuKeyboard() {
-		return statiiCuKeyboard;
-	}
-
-	public List<Statii> getStatiiCuMouse() {
-		return statiiCuMouse;
-	}
-
-	public List<Statii> getStatiiCuDisplay() {
-		return statiiCuDisplay;
-	}
-
-	public List<Statii> getStatiiCuCasti() {
-		return statiiCuCasti;
-	}
-
-	public List<Statii> getStatiiCuBirou() {
-		return statiiCuBirou;
+	public void setStatiiAmplasate(List<Statii> statiiAmplasate) {
+		this.statiiAmplasate = statiiAmplasate;
 	}
 
 	@Override

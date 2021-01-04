@@ -1,9 +1,13 @@
 package org;
 
+import static javax.persistence.CascadeType.ALL;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import static javax.persistence.FetchType.EAGER;
 
 @Entity
 public class calculator extends Inventar {
@@ -13,11 +17,14 @@ public class calculator extends Inventar {
 	private String tipStocare;
 	private double capacitateStogareGb;
 	
+	@OneToMany(mappedBy = "calculatorStatieId", cascade = ALL, fetch = EAGER, orphanRemoval = true)
+	private List<Statii> statiiCuCalculatoare = new ArrayList<Statii>();
+	
 
 	public calculator(Integer obiectId, String obiectNume, String obiectProducator, double obiectPret,
-			Integer stocDisponibil, Integer stocTotal, org.tipInventar tipInventar, String procesor,
+			 Integer stocTotal, org.tipInventar tipInventar, String procesor,
 			Integer memorieRamMb, String cardVideo, String tipStocare, double capacitateStogareGb) {
-		super(obiectId, obiectNume, obiectProducator, obiectPret, stocDisponibil, stocTotal, tipInventar);
+		super(obiectId, obiectNume, obiectProducator, obiectPret, stocTotal, tipInventar);
 		this.procesor = procesor;
 		this.memorieRamMb = memorieRamMb;
 		this.cardVideo = cardVideo;
@@ -29,6 +36,9 @@ public class calculator extends Inventar {
 		// TODO Auto-generated constructor stub
 	}
 
+	public List<Statii> getStatiiCuCalculatoare() {
+		return statiiCuCalculatoare;
+	}
 	public calculator(Integer id) {
 		// TODO Auto-generated constructor stub
 	}
@@ -129,6 +139,10 @@ public class calculator extends Inventar {
 				+ ", tipStocare=" + tipStocare + ", capacitateStogareGb=" + capacitateStogareGb
 				+ ", calculatoareInStatii=" + "]";
 	}	
+	
+	public void seteazaCalculatorLaStatie(Statii s) {
+		s.setCalculatorStatieId(this);
+	}
 	
 	
 	

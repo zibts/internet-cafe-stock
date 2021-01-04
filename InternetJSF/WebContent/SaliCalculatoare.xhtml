@@ -9,6 +9,7 @@ xmlns:f="http://java.sun.com/jsf/core"
 		style="width: 100%; font-size: 36px; line-height: 48px; background-color: navy; color: white">
 		Formular-Statii-Sali
 	</div>
+	<h:button outcome="Menu.xhtml" value="Menu" />
 	<h:form id="formSala">
 		<h:panelGrid columns="2" border="1" id="panouFormMaster">
 			<f:facet name="header">
@@ -72,6 +73,7 @@ xmlns:f="http://java.sun.com/jsf/core"
 			<h:inputText id="idSala" value="#{statiiInSala.statieId}"
 				validatorMessage="IDul este obligatoriu!">
 				<f:validateDoubleRange minimum="0"/>
+				<f:ajax/>
 			</h:inputText>
 			</h:column>
 			<h:column>
@@ -141,8 +143,7 @@ xmlns:f="http://java.sun.com/jsf/core"
 		</h:dataTable>
 		<h:commandButton id="cmdAdaugaArticol"
 			actionListener="#{formSala.adaugaStatie}" value="Adauga articol"/>
-			
-			
+						
 		<h:messages/>
 	</h:form>
 </body>

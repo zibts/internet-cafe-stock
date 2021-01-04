@@ -50,6 +50,7 @@ public class FormSala {
 		private List<perifericKeyboard> perifericeKeyboard = new ArrayList<perifericKeyboard>();
 		private List<perifericMouse> perifericeMouse = new ArrayList<perifericMouse>();
 		private List<perifericCasti> perifericeCasti = new ArrayList<perifericCasti>();
+		private List<Mobilier> birouri = new ArrayList<Mobilier>();
 		
 		public DataModel<Statii> getStatiiInSalaDataModel(){
 			statiiInSalaDataModel=new ListDataModel<Statii>(this.salaCalculatoare.getStatiiInSala());
@@ -69,6 +70,10 @@ public class FormSala {
 		}
 		public List<perifericCasti> getPerifericeCasti() {
 			return perifericeCasti;
+		}
+		
+		public List<Mobilier> getBirouStatie() {
+			return birouri;
 		}
 		public Integer getIdCalculator() {
 			return this.statiiInSalaDataModel.getRowData().getCalculatorStatieId().getObiectId();	
@@ -187,12 +192,17 @@ public class FormSala {
 		public void adaugaStatie(ActionEvent e) {
 			Random r = new Random();
 			Statii statieNoua=new Statii();
-			statieNoua.setStatieId(this.statiiInSalaDataModel.getRowCount() +r.nextInt(10000-1));
-			
+		
 			this.salaCalculatoare.getStatiiInSala().add(statieNoua);
-			statieNoua.setSalaStatieAmplasataId(this.salaCalculatoare);
 			
+			statieNoua.setStatieId(this.statiiInSalaDataModel.getRowCount() +r.nextInt(10000-1));
+			statieNoua.setSalaStatieAmplasataId(this.salaCalculatoare);
 			statieNoua.setCalculatorStatieId(this.calculatoare.get(0));
+			statieNoua.setDisplayStatieId(this.perifericeDisplay.get(0));
+			statieNoua.setCastiStatieId(this.perifericeCasti.get(0));
+			statieNoua.setKeyboardStatieId(this.perifericeKeyboard.get(0));
+			statieNoua.setMouseStatieId(this.perifericeMouse.get(0));
+			statieNoua.setBirouStatie(this.birouri.get(0));
 		}
 		
 		public void stergeStatie(ActionEvent evt){
@@ -204,10 +214,14 @@ public class FormSala {
 				this.em.remove(this.statiiInSalaDataModel.getRowData());
 				this.salaCalculatoare.getStatiiInSala().remove(this.statiiInSalaDataModel.getRowData());
 			}
+			else {
+				this.salaCalculatoare.getStatiiInSala().remove(this.statiiInSalaDataModel.getRowData());
+			}
 			// @ Transactional --------------------
 			em.getTransaction().commit();
 			// ----------------------------------
 		}
+		
 		
 		public void salveazaStatie(ActionEvent evt){
 			// @ Transactional --------------------
@@ -261,6 +275,9 @@ public class FormSala {
 			this.perifericeCasti = em.createQuery("Select o from perifericCasti o", perifericCasti.class).getResultList();
 			if(this.perifericeCasti != null && !this.perifericeCasti.isEmpty())
 				Collections.sort(this.perifericeCasti, (c1,c2) -> c1.getObiectId().compareTo(c2.getObiectId()));
+			this.birouri = em.createQuery("Select o from Mobilier o", Mobilier.class).getResultList();
+			if(this.birouri != null && !this.birouri.isEmpty())
+				Collections.sort(this.birouri, (c1,c2) -> c1.getObiectId().compareTo(c2.getObiectId()));
 		}
 		
 

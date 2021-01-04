@@ -13,9 +13,9 @@ public class Periferice extends Inventar implements java.io.Serializable {
 	private String perifericPort;
 	
 	protected Periferice(Integer obiectId, String obiectNume, String obiectProducator, double obiectPret,
-			Integer stocDisponibil, Integer stocTotal, org.tipInventar tipInventar, String perifericTip,
+			 Integer stocTotal, org.tipInventar tipInventar, String perifericTip,
 			String perifericPort) {
-		super(obiectId, obiectNume, obiectProducator, obiectPret, stocDisponibil, stocTotal, tipInventar);
+		super(obiectId, obiectNume, obiectProducator, obiectPret, stocTotal, tipInventar);
 		this.perifericTip = perifericTip;
 		this.perifericPort = perifericPort;
 	}

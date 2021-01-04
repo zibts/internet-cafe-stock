@@ -11,8 +11,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import org.eclipse.persistence.annotations.JoinFetch;
 
 @Entity
 public class Statii {
@@ -47,16 +50,16 @@ public class Statii {
 	private perifericCasti castiStatieId;
 	
 	@ManyToOne
-	@JoinColumn(name="masaId")
-	private Mobilier masaStatie;
+	@JoinColumn(name="birouId")
+	private Mobilier birouStatie;
 	
 	@ManyToMany
-	@JoinColumn(name="inventarInStatie")
+	@JoinTable(name = "StatiiCalculatoare", joinColumns = @JoinColumn(name = "statieID", referencedColumnName = "statieId"), inverseJoinColumns = @JoinColumn(name = "obiectId", referencedColumnName = "obiectId"))
 	private List<Inventar> inventarInStatie;
 
 	public Statii(Integer statieId, salaCalculatoare salaStatieAmplasataId, calculator calculatorStatieId,
 			perifericKeyboard keyboardStatieId, perifericMouse mouseStatieId, perifericDisplay displayStatieId,
-			perifericCasti castiStatieId, Mobilier masaStatie) {
+			perifericCasti castiStatieId, Mobilier birouStatie) {
 		super();
 		this.statieId = statieId;
 		this.salaStatieAmplasataId = salaStatieAmplasataId;
@@ -65,7 +68,7 @@ public class Statii {
 		this.mouseStatieId = mouseStatieId;
 		this.displayStatieId = displayStatieId;
 		this.castiStatieId = castiStatieId;
-		this.masaStatie = masaStatie;
+		this.birouStatie = birouStatie;
 		this.inventarInStatie=this.createInventarInStatie();
 	}
 	
@@ -130,12 +133,12 @@ public class Statii {
 		this.castiStatieId = castiStatieId;
 	}
 
-	public Mobilier getMasaStatie() {
-		return masaStatie;
+	public Mobilier getBirouStatie() {
+		return birouStatie;
 	}
 
-	public void setMasaStatie(Mobilier masaStatie) {
-		this.masaStatie = masaStatie;
+	public void setBirouStatie(Mobilier birouStatie) {
+		this.birouStatie = birouStatie;
 	}
 	public List<Inventar> createInventarInStatie() {
 		List<Inventar> intermed = new ArrayList<Inventar>();
@@ -143,7 +146,7 @@ public class Statii {
 		intermed.add(this.castiStatieId);
 		intermed.add(this.displayStatieId);
 		intermed.add(this.keyboardStatieId);
-		intermed.add(this.masaStatie);
+		intermed.add(this.birouStatie);
 		intermed.add(this.mouseStatieId);
 		return intermed;
 	}
@@ -162,7 +165,7 @@ public class Statii {
 		result = prime * result + ((castiStatieId == null) ? 0 : castiStatieId.hashCode());
 		result = prime * result + ((displayStatieId == null) ? 0 : displayStatieId.hashCode());
 		result = prime * result + ((keyboardStatieId == null) ? 0 : keyboardStatieId.hashCode());
-		result = prime * result + ((masaStatie == null) ? 0 : masaStatie.hashCode());
+		result = prime * result + ((birouStatie == null) ? 0 : birouStatie.hashCode());
 		result = prime * result + ((mouseStatieId == null) ? 0 : mouseStatieId.hashCode());
 		result = prime * result + ((salaStatieAmplasataId == null) ? 0 : salaStatieAmplasataId.hashCode());
 		result = prime * result + ((statieId == null) ? 0 : statieId.hashCode());
@@ -198,10 +201,10 @@ public class Statii {
 				return false;
 		} else if (!keyboardStatieId.equals(other.keyboardStatieId))
 			return false;
-		if (masaStatie == null) {
-			if (other.masaStatie != null)
+		if (birouStatie == null) {
+			if (other.birouStatie != null)
 				return false;
-		} else if (!masaStatie.equals(other.masaStatie))
+		} else if (!birouStatie.equals(other.birouStatie))
 			return false;
 		if (mouseStatieId == null) {
 			if (other.mouseStatieId != null)

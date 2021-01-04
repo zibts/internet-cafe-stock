@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+>
+<body>
+<div style="width:100%;font-size:36px;line-height:48px;background-color:navy;color:white">Formular gestionare casti</div>
+<h:button outcome="Menu.xhtml" value="Menu" />
+<h:form id="form1">
+
+<h:panelGrid id="p1" columns="4" border="1">
+<f:facet name="header" >
+<h:outputText value="Formular Gestionare Casti" style="font-size: 18px"></h:outputText>
+
+</f:facet>
+<h:panelGrid id="p2" columns="2">
+<h:commandButton id="prevC" value="Previous" actionListener="#{formCasti.prevperifericCasti}"></h:commandButton>
+<h:commandButton id="nextC" value="Next" actionListener="#{formCasti.nextperifericCasti}"></h:commandButton>
+</h:panelGrid>
+<h:panelGrid id="p3" columns="2">
+<h:commandButton id="cmdAdauga" value="Adauga" actionListener="#{formCasti.adaugaperifericCasti}"></h:commandButton>
+<h:commandButton id="cmdSterge" value="Sterge" actionListener="#{formCasti.stergeperifericCasti}"></h:commandButton>
+</h:panelGrid>
+<h:panelGrid id="p4" columns="2">
+<h:commandButton id="cmdAbandon" value="Abandon" actionListener="#{formCasti.abandon}"></h:commandButton>
+<h:commandButton id="cmdSalveaza" value="Salveaza" actionListener="#{formCasti.salveazaperifericCasti}"></h:commandButton>
+</h:panelGrid>
+<h:selectOneMenu value="#{formCasti.idperifericCasti}">
+<f:selectItems id="s1" value="#{formCasti.perifericeCasti}"
+var="item" itemValue="#{item.obiectId}"></f:selectItems>
+<f:ajax render="Nume Microfon Id Stereo producator Pret stocDisponibil stocTotal"></f:ajax>
+</h:selectOneMenu>
+
+<h:outputLabel value="Id"></h:outputLabel>
+<h:inputText id="Id" value="#{formCasti.perifericCasti.obiectId}"></h:inputText>
+
+<h:outputLabel value="Dispun de microfon"></h:outputLabel>
+<h:inputText id="Microfon" value="#{formCasti.perifericCasti.castiMicrofon}"></h:inputText>
+
+<h:outputLabel value="Nume"></h:outputLabel>
+<h:inputText id="Nume" value="#{formCasti.perifericCasti.obiectNume}"></h:inputText>
+
+<h:outputLabel value="Dispun de stereo"></h:outputLabel>
+<h:inputText id="Stereo" value="#{formCasti.perifericCasti.stereo}"></h:inputText>
+
+<h:outputLabel value="Producator"></h:outputLabel>
+<h:inputText id="producator" value="#{formCasti.perifericCasti.obiectProducator}"></h:inputText>
+
+<h:outputLabel value="Pretul"></h:outputLabel>
+<h:inputText id="Pret" value="#{formCasti.perifericCasti.obiectPret}"></h:inputText>
+
+
+<h:outputLabel value="Stoc Disponibil"></h:outputLabel>
+<h:outputLabel id="stocDisponibil" value="#{formCasti.perifericCasti.stocDisponibil}"></h:outputLabel>
+
+
+<h:outputLabel value="Stoc Total"></h:outputLabel>
+
+<h:inputText id="stocTotal" value="#{formCasti.perifericCasti.stocTotal}"></h:inputText>
+</h:panelGrid>
+
+<h:messages style = "color:red;margin:8px;" /> 
+</h:form>
+
+
+</body>
+</html>
