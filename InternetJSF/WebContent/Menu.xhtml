@@ -1,41 +1,104 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:f="http://java.sun.com/jsf/core"
 >
-<body>
+  <body>
+    <div
+      style="
+        width: 100%;
+        font-size: 36px;
+        line-height: 48px;
+        background-color: navy;
+        color: white;
+      "
+    >
+      My Facelet Application
+    </div>
+    <h:panelGrid id="p1" columns="6">
+      <f:facet name="header">
+        <link
+          rel="stylesheet"
+          href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        />
+        <h:outputText
+          value="Gestionare Inventar"
+          style="font-size: 18px"
+        ></h:outputText>
+      </f:facet>
+      <h:button
+        styleClass="btn btn-primary"
+        outcome="Calculatoare.xhtml"
+        value="Calculatoare"
+        style="margin: 4px"
+      />
+      <h:button
+        styleClass="btn btn-primary"
+        outcome="Casti.xhtml"
+        value="Casti"
+        style="margin: 4px"
+      />
+      <h:button
+        styleClass="btn btn-primary"
+        outcome="Display.xhtml"
+        value="Display-uri"
+        style="margin: 4px"
+      />
+      <h:button
+        styleClass="btn btn-primary"
+        outcome="Keyboard.xhtml"
+        value="Keyboard-uri"
+        style="margin: 4px"
+      />
+      <h:button
+        styleClass="btn btn-primary"
+        outcome="Mouse.xhtml"
+        value="Mouse-uri"
+        style="margin: 4px"
+      />
+      <h:button
+        styleClass="btn btn-primary"
+        outcome="Mobilier.xhtml"
+        value="Mobilier"
+        style="margin: 4px"
+      />
+    </h:panelGrid>
 
-<div style="width:100%;font-size:36px;line-height:48px;background-color:navy;color:white">My Facelet Application</div>
-<h:panelGrid id="p1" columns="6">
-<f:facet name="header" >
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<h:outputText value="Gestionare Inventar" style="font-size: 18px"></h:outputText>
-</f:facet>
-<h:button styleClass="btn btn-primary"  outcome="Calculatoare.xhtml" value="Calculatoare" style="margin:4px"/>
-<h:button styleClass="btn btn-primary" outcome="Casti.xhtml" value="Casti" style="margin:4px" />
-<h:button styleClass="btn btn-primary" outcome="Display.xhtml" value="Display-uri" style="margin:4px" />
-<h:button styleClass="btn btn-primary" outcome="Keyboard.xhtml" value="Keyboard-uri" style="margin:4px"/>
-<h:button styleClass="btn btn-primary" outcome="Mouse.xhtml" value="Mouse-uri" style="margin:4px"/>
-<h:button styleClass="btn btn-primary" outcome="Mobilier.xhtml" value="Mobilier" style="margin:4px" />
-
-</h:panelGrid>
-
-<h:panelGrid id="p2" columns="1">
-<f:facet name="header" >
-<h:outputText value="Gestionare Sali/Statii" style="font-size: 18px"></h:outputText>
-</f:facet>
-<h:button styleClass="btn btn-primary" outcome="SaliCalculatoare.xhtml" value="Sali/Statii Calculatoare" style="margin:4px" />
-</h:panelGrid>
-<h:panelGrid id="p2" columns="2">
-<f:facet name="header" >
-<h:outputText value="Vanzare/Cumparare Obiecte" style="font-size: 18px"></h:outputText>
-</f:facet>
-<h:button styleClass="btn btn-primary" outcome="OferteVanzare.xhtml" value="Ofertele noastre" style="margin:4px" />
-<h:button styleClass="btn btn-primary" outcome="FurnizoriOferte.xhtml" value="Furnizori/Oferte" style="margin:4px" />
-</h:panelGrid>
-</body>
-
-
-
+    <h:panelGrid id="p2" columns="1">
+      <f:facet name="header">
+        <h:outputText
+          value="Gestionare Sali/Statii"
+          style="font-size: 18px"
+        ></h:outputText>
+      </f:facet>
+      <h:button
+        styleClass="btn btn-primary"
+        outcome="SaliCalculatoare.xhtml"
+        value="Sali/Statii Calculatoare"
+        style="margin: 4px"
+      />
+    </h:panelGrid>
+    <h:panelGrid id="p2" columns="2">
+      <f:facet name="header">
+        <h:outputText
+          value="Vanzare/Cumparare Obiecte"
+          style="font-size: 18px"
+        ></h:outputText>
+      </f:facet>
+      <h:button
+        styleClass="btn btn-primary"
+        outcome="OferteVanzare.xhtml"
+        value="Ofertele noastre"
+        style="margin: 4px"
+      />
+      <h:button
+        styleClass="btn btn-primary"
+        outcome="FurnizoriOferte.xhtml"
+        value="Furnizori/Oferte"
+        style="margin: 4px"
+      />
+    </h:panelGrid>
+  </body>
 </html>

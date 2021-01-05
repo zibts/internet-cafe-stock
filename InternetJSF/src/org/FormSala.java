@@ -149,37 +149,36 @@ public class FormSala {
 		}
 		
 		public void salvareSalaCalculatoare(ActionEvent e) {
+			if (!em.getTransaction().isActive()) 
+				em.getTransaction().begin();
+			
 			try {
-				if (!em.getTransaction().isActive()) 
-					em.getTransaction().begin();
 				if(this.em.contains(salaCalculatoare)) {
 					em.merge(salaCalculatoare);
 					em.flush();
+					em.getTransaction().commit();
 				}
-				em.getTransaction().commit();
 			}
 			catch(Exception ex) {
 				FacesMessage facesMsg = 
 			            new FacesMessage(FacesMessage.SEVERITY_ERROR, "EROARE SALVARE: " + ex.getMessage(), null);			
 				
 				FacesContext fc = FacesContext.getCurrentInstance();			
-				if (!em.getTransaction().isActive()) 
-					em.getTransaction().begin();
 				// Afisare mesaj
 				fc.addMessage(null, facesMsg);
 				fc.renderResponse();
+				if (!em.getTransaction().isActive()) 
+					em.getTransaction().begin();
 				em.getTransaction().rollback();
+				this.initModelSali();
 			}
 			
 			try {
-				if (!em.getTransaction().isActive()) 
-					em.getTransaction().begin();
 				if(!this.em.contains(salaCalculatoare)) {
 					em.persist(salaCalculatoare);	
+					em.getTransaction().commit();
 				}
 				this.salaCalculatoare=this.saliCalculatoare.get(0);
-			
-				em.getTransaction().commit();
 			}
 			catch(Exception ex) {
 				FacesMessage facesMsg = 
@@ -188,21 +187,24 @@ public class FormSala {
 				FacesContext fc = FacesContext.getCurrentInstance();			
 				
 				// Afisare mesaj
-				if (!em.getTransaction().isActive()) 
-					em.getTransaction().begin();
 				fc.addMessage(null, facesMsg);
 				fc.renderResponse();
+				if (!em.getTransaction().isActive()) 
+					em.getTransaction().begin();
 				em.getTransaction().rollback();
+				this.initModelSali();
 			}
-			this.salaCalculatoare=this.saliCalculatoare.get(0);
+			this.salaCalculatoare = this.saliCalculatoare.get(0);
+			
 			this.readOnlyId = true;
 		}
 		
 		
-		public void stergereSalaCalculatoare(ActionEvent evt){			
-			if(this.statiiInSalaDataModel.getRowCount()!=0) {
+		public void stergereSalaCalculatoare(ActionEvent evt){		
+			
+			if(this.saliCalculatoare.size()==1) {
 				
-				FacesMessage facesMsg = new FacesMessage("Asigurati-va ca in sala nu sunt calculatoare");			
+				FacesMessage facesMsg = new FacesMessage("Asigurati-va ca exista cel putin o statie");			
 				FacesContext fc = FacesContext.getCurrentInstance();			
 				// Afisare mesaj
 				fc.addMessage(null, facesMsg);
@@ -230,7 +232,7 @@ public class FormSala {
 			if (this.em.contains(this.salaCalculatoare)){
 				this.em.refresh(this.salaCalculatoare);
 			}else
-				initModelSali();
+				this.initModelSali();
 		}
 		
 		public void adaugaStatie(ActionEvent e) {
@@ -254,7 +256,8 @@ public class FormSala {
 			// @ Transactional --------------------
 			if (!em.getTransaction().isActive()) 
 				em.getTransaction().begin();
-			// ----------------------------------		
+			// ----------------------------------	
+			try {
 			if (this.em.contains(this.statiiInSalaDataModel.getRowData())){
 				this.em.remove(this.statiiInSalaDataModel.getRowData());
 				this.salaCalculatoare.getStatiiInSala().remove(this.statiiInSalaDataModel.getRowData());
@@ -265,6 +268,20 @@ public class FormSala {
 			// @ Transactional --------------------
 			em.getTransaction().commit();
 			// ----------------------------------
+			}
+			
+			catch(Exception ex) {
+				FacesMessage facesMsg = 
+			            new FacesMessage(FacesMessage.SEVERITY_ERROR, "EROARE SALVARE: " + ex.getMessage(), null);			
+				
+				FacesContext fc = FacesContext.getCurrentInstance();			
+				
+				// Afisare mesaj
+				fc.addMessage(null, facesMsg);
+				fc.renderResponse();
+				em.getTransaction().rollback();
+			}
+			
 		}
 		
 		
@@ -272,17 +289,33 @@ public class FormSala {
 			// @ Transactional --------------------
 			if (!em.getTransaction().isActive()) 
 				em.getTransaction().begin();
-			// ----------------------------------		
-			if (this.em.contains(this.statiiInSalaDataModel.getRowData())){
-				this.em.merge(this.statiiInSalaDataModel.getRowData());
-				em.flush();
+			
+			try {
+				// ----------------------------------	
+				if (this.em.contains(this.statiiInSalaDataModel.getRowData())){
+					this.em.merge(this.statiiInSalaDataModel.getRowData());
+				}
+				else {
+					em.persist(this.statiiInSalaDataModel.getRowData());
+				}
+				// @ Transactional --------------------
+				em.getTransaction().commit();
+				// ----------------------------------
 			}
-			else {
-				em.persist(this.statiiInSalaDataModel.getRowData());
+			catch(Exception ex) {
+				FacesMessage facesMsg = 
+			            new FacesMessage(FacesMessage.SEVERITY_ERROR, "EROARE SALVARE: " + ex.getMessage(), null);			
+				
+				FacesContext fc = FacesContext.getCurrentInstance();			
+				
+				// Afisare mesaj
+				if (!em.getTransaction().isActive()) 
+					em.getTransaction().begin();
+				fc.addMessage(null, facesMsg);
+				fc.renderResponse();
+				em.getTransaction().rollback();
 			}
-			// @ Transactional --------------------
-			em.getTransaction().commit();
-			// ----------------------------------
+			
 		}
 		
 		
@@ -302,7 +335,15 @@ public class FormSala {
 				if(!this.saliCalculatoare.contains(this.salaCalculatoare))
 					this.salaCalculatoare=this.saliCalculatoare.get(0);
 				this.readOnlyId = this.checkIfThere(this.salaCalculatoare);
-			}		
+			}
+			if(this.saliCalculatoare==null || this.saliCalculatoare.isEmpty()) {
+				this.salaCalculatoare=new salaCalculatoare();
+				this.salaCalculatoare.setSalaId(999);
+				this.salaCalculatoare.setDenumireSala("Introduceti denumire statie noua");
+				this.salaCalculatoare.setNrStatiiAmplasate(null);
+				this.saliCalculatoare.add(this.salaCalculatoare);
+				this.readOnlyId = this.checkIfThere(this.salaCalculatoare);
+			}
 		}
 		
 		private void initModelCalculatoare() {

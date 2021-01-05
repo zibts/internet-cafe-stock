@@ -35,6 +35,8 @@ public class FormFurnizori {
 		
 		private Boolean readOnlyId;
 		
+		private Boolean disabledId;
+		
 		public Integer getIdFurnizori () {
 			
 			return this.furnizori.getFurnizorId();
@@ -50,6 +52,10 @@ public class FormFurnizori {
 		
 		public Boolean getReadOnlyId() {
 			return readOnlyId;
+		}
+		
+		public Boolean getDisabledId() {
+			return disabledId;
 		}
 		//Detail
 		private DataModel<furnizoriOferta> furnizoriOfertantiDataModel;
@@ -185,7 +191,7 @@ public class FormFurnizori {
 			if (this.em.contains(this.furnizori)){
 				this.em.refresh(this.furnizori);
 			}else
-				initModelSali();
+				this.initModelFurnizori();
 		}
 		
 		public void adaugaOferta(ActionEvent e) {
@@ -211,6 +217,8 @@ public class FormFurnizori {
 			}
 		}
 		public void adaugaOferta() {
+			
+			this.disabledId = false;
 			
 			try{ Random r = new Random();
 			furnizoriOferta ofertaNoua=new furnizoriOferta();
@@ -254,38 +262,48 @@ public class FormFurnizori {
 		
 		
 		public void salveazaOferta(ActionEvent evt){
-			
+			this.readOnlyId = true;
 			try {
-				// @ Transactional --------------------
 				if (!em.getTransaction().isActive()) 
 					em.getTransaction().begin();
-				// ----------------------------------		
 				if (this.em.contains(this.furnizoriOfertantiDataModel.getRowData())){
 					this.em.merge(this.furnizoriOfertantiDataModel.getRowData());
-					em.flush();
 				}
-				else {
-					em.persist(this.furnizoriOfertantiDataModel.getRowData());
-				}
-				// @ Transactional --------------------
-				em.getTransaction().commit();
-				// ----------------------------------
 			}
 			catch(Exception ex) {
 				FacesMessage facesMsg = 
 			            new FacesMessage(FacesMessage.SEVERITY_ERROR, "EROARE SALVARE: " + ex.getMessage(), null);			
 				FacesContext fc = FacesContext.getCurrentInstance();			
-				// Afisare mesaj
 				fc.addMessage(null, facesMsg);
 				fc.renderResponse();
 				
 				if (!em.getTransaction().isActive()) 
 					em.getTransaction().begin();
-				// Afisare mesaj
-
 				em.getTransaction().rollback();
-				initModelOferte();
+				
+			}try {
+				if (!em.getTransaction().isActive()) 
+					em.getTransaction().begin();
+				
+				if(!this.em.contains(this.furnizoriOfertantiDataModel.getRowData())){
+					em.persist(this.furnizoriOfertantiDataModel.getRowData());
+				}
 			}
+			
+			catch(Exception ex) {
+				FacesMessage facesMsg = 
+			            new FacesMessage(FacesMessage.SEVERITY_ERROR, "EROARE SALVARE: " + ex.getMessage(), null);			
+				FacesContext fc = FacesContext.getCurrentInstance();			
+				fc.addMessage(null, facesMsg);
+				fc.renderResponse();
+				if (!em.getTransaction().isActive()) 
+					em.getTransaction().begin();
+				em.getTransaction().rollback();
+			}
+			
+			if (!em.getTransaction().isActive()) 
+				em.getTransaction().begin();
+			em.getTransaction().commit();
 		}
 		
 		
@@ -294,21 +312,18 @@ public class FormFurnizori {
 		public FormFurnizori() {
 			EntityManagerFactory emf=Persistence.createEntityManagerFactory("InternetJPA");
 			em = emf.createEntityManager();
-			initModelSali();
+			initModelFurnizori();
 			initModelOferte();
 		}
 		
-		private void initModelSali() {
+		private void initModelFurnizori() {
 			this.furnizorii=em.createQuery("Select o From Furnizori o",Furnizori.class).getResultList();
 			if(this.furnizorii!=null && !this.furnizorii.isEmpty()) {
 				Collections.sort(this.furnizorii,(c1,c2) -> c1.getFurnizorId().compareTo(c2.getFurnizorId()));
 				if(!this.furnizorii.contains(this.furnizori))
 					this.furnizori=this.furnizorii.get(0);
 				this.readOnlyId = this.checkIfThere(this.furnizori);
-			}
-			
-			if(this.furnizorii.isEmpty()) {
-				this.adaugarefurnizori();
+				this.disabledId = true;
 			}
 		}
 		

@@ -1,58 +1,136 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
->
-<body>
-<div style="width:100%;font-size:36px;line-height:48px;background-color:navy;color:white">Formular stoc in vanzare</div>
-<h:button outcome="Menu.xhtml" value="Menu" />
-<h:form id="form1">
-
-<h:panelGrid id="p1" columns="3">
-<f:facet name="header" >
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-
-<h:outputText value="Formular Gestionare Display" style="font-size: 18px"></h:outputText>
-<h:selectOneMenu styleClass="form-control" style="margin:5" value="#{formObiecteInVanzare.idstocInVanzare}">
-<f:selectItems id="s1" value="#{formObiecteInVanzare.stocuriInVanzare}"
-var="item" itemValue="#{item.ofertaVanzareId}"></f:selectItems>
-<f:ajax render="Obiect Id Pret"></f:ajax>
-</h:selectOneMenu>
-
-</f:facet>
-<h:panelGrid id="p2" columns="2">
-<h:commandButton styleClass="btn btn-primary" style="margin:5px" id="prevC" value="Previous" actionListener="#{formObiecteInVanzare.prevstocInVanzare}"></h:commandButton>
-<h:commandButton styleClass="btn btn-primary" id="nextC" value="Next" actionListener="#{formObiecteInVanzare.nextstocInVanzare}"></h:commandButton>
-</h:panelGrid>
-<h:panelGrid id="p3" columns="2">
-<h:commandButton styleClass="btn btn-primary" style="margin:5px" id="cmdAdauga" value="Adauga" actionListener="#{formObiecteInVanzare.adaugastocInVanzare}"></h:commandButton>
-<h:commandButton styleClass="btn btn-primary" style="margin:5px" id="cmdSterge" value="Sterge" actionListener="#{formObiecteInVanzare.stergestocInVanzare}"></h:commandButton>
-</h:panelGrid>
-<h:panelGrid id="p4" columns="2">
-<h:commandButton styleClass="btn btn-primary" style="margin:5px" id="cmdAbandon" value="Abandon" actionListener="#{formObiecteInVanzare.abandon}"></h:commandButton>
-<h:commandButton styleClass="btn btn-primary" style="margin:5px" id="cmdSalveaza" value="Salveaza" actionListener="#{formObiecteInVanzare.salveazastocInVanzare}"></h:commandButton>
-</h:panelGrid>
-
-
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:5px" value="Id"></h:outputLabel>
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:5px" value="Diagonala Ecran"></h:outputLabel>
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:5px" value="Nume"></h:outputLabel>
-
-<h:inputText styleClass="form-control" style="margin:5px" id="Id" readonly="#{formObiecteInVanzare.readOnlyId}" value="#{formObiecteInVanzare.stocInVanzare.ofertaVanzareId}"></h:inputText>
-
-<h:selectOneMenu styleClass="form-control" style="margin:5px" value="#{formObiecteInVanzare.idInventar}">
-<f:selectItems id="Obiect" value="#{formObiecteInVanzare.inventar}"
-var="item" itemValue="#{item.obiectId}" itemLabel="#{item.obiectNume}"></f:selectItems>
-<f:ajax/>
-</h:selectOneMenu>
-<h:inputText styleClass="form-control" style="margin:5px" id="Pret" value="#{formObiecteInVanzare.stocInVanzare.pretVanzare}"></h:inputText>
-
-</h:panelGrid>
-
-<h:messages style = "color:red;margin:8px;" /> 
-</h:form>
-
-
-</body>
+<html
+   xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   >
+   <body>
+      <div
+         style="
+         width: 100%;
+         font-size: 36px;
+         line-height: 48px;
+         background-color: navy;
+         color: white;
+         "
+         >
+         Formular stoc in vanzare
+      </div>
+      <h:button outcome="Menu.xhtml" value="Menu" />
+      <h:form id="form1">
+         <h:panelGrid id="p1" columns="3">
+            <f:facet name="header">
+               <link
+                  rel="stylesheet"
+                  href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+                  />
+               <h:outputText
+                  value="Formular Gestionare Vinzari Stoc"
+                  style="font-size: 18px"
+                  ></h:outputText>
+               <h:selectOneMenu
+                  styleClass="form-control"
+                  style="margin: 5"
+                  value="#{formObiecteInVanzare.idstocInVanzare}"
+                  >
+                  <f:selectItems
+                     id="s1"
+                     value="#{formObiecteInVanzare.stocuriInVanzare}"
+                     var="item"
+                     itemValue="#{item.ofertaVanzareId}"
+                     ></f:selectItems>
+                  <f:ajax render="Obiect Id Pret"></f:ajax>
+               </h:selectOneMenu>
+            </f:facet>
+            <h:panelGrid id="p2" columns="2">
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 5px"
+                  id="prevC"
+                  value="Previous"
+                  actionListener="#{formObiecteInVanzare.prevstocInVanzare}"
+                  ></h:commandButton>
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  id="nextC"
+                  value="Next"
+                  actionListener="#{formObiecteInVanzare.nextstocInVanzare}"
+                  ></h:commandButton>
+            </h:panelGrid>
+            <h:panelGrid id="p3" columns="2">
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 5px"
+                  id="cmdAdauga"
+                  value="Adauga"
+                  actionListener="#{formObiecteInVanzare.adaugastocInVanzare}"
+                  ></h:commandButton>
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 5px"
+                  id="cmdSterge"
+                  value="Sterge"
+                  actionListener="#{formObiecteInVanzare.stergestocInVanzare}"
+                  ></h:commandButton>
+            </h:panelGrid>
+            <h:panelGrid id="p4" columns="2">
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 5px"
+                  id="cmdAbandon"
+                  value="Abandon"
+                  actionListener="#{formObiecteInVanzare.abandon}"
+                  ></h:commandButton>
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 5px"
+                  id="cmdSalveaza"
+                  value="Salveaza"
+                  actionListener="#{formObiecteInVanzare.salveazastocInVanzare}"
+                  ></h:commandButton>
+            </h:panelGrid>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 5px"
+               value="Id"
+               ></h:outputLabel>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 5px"
+               value="Diagonala Ecran"
+               ></h:outputLabel>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 5px"
+               value="Nume"
+               ></h:outputLabel>
+            <h:inputText
+               styleClass="form-control"
+               style="margin: 5px"
+               id="Id"
+               readonly="#{formObiecteInVanzare.readOnlyId}"
+               value="#{formObiecteInVanzare.stocInVanzare.ofertaVanzareId}"
+               ></h:inputText>
+            <h:selectOneMenu
+               styleClass="form-control"
+               style="margin: 5px"
+               value="#{formObiecteInVanzare.idInventar}"
+               >
+               <f:selectItems
+                  id="Obiect"
+                  value="#{formObiecteInVanzare.inventar}"
+                  var="item"
+                  itemValue="#{item.obiectId}"
+                  itemLabel="#{item.obiectNume}"
+                  ></f:selectItems>
+               <f:ajax />
+            </h:selectOneMenu>
+            <h:inputText
+               styleClass="form-control"
+               style="margin: 5px"
+               id="Pret"
+               value="#{formObiecteInVanzare.stocInVanzare.pretVanzare}"
+               ></h:inputText>
+         </h:panelGrid>
+         <h:messages style="color: red; margin: 8px" />
+      </h:form>
+   </body>
 </html>

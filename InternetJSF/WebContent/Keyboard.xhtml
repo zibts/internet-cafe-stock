@@ -1,70 +1,181 @@
 <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:h="http://java.sun.com/jsf/html"
-xmlns:f="http://java.sun.com/jsf/core"
->
-<body>
-<div style="width:100%;font-size:36px;line-height:48px;background-color:navy;color:white">Formular gestionare Keyboard</div>
-<h:button outcome="Menu.xhtml" value="Menu" />
-<h:form id="form1">
-
-<h:panelGrid id="p1" columns="4">
-<f:facet name="header" >
-<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
-<h:outputText value="Formular Gestionare Keyboard" style="font-size: 18px"></h:outputText>
-
-</f:facet>
-<h:panelGrid id="p2" columns="2">
-<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="prevC" value="Previous" actionListener="#{formKeyboard.prevperifericKeyboard}"></h:commandButton>
-<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="nextC" value="Next" actionListener="#{formKeyboard.nextperifericKeyboard}"></h:commandButton>
-</h:panelGrid>
-<h:panelGrid id="p3" columns="2">
-<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAdauga" value="Adauga" actionListener="#{formKeyboard.adaugaperifericKeyboard}"></h:commandButton>
-<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSterge" value="Sterge" actionListener="#{formKeyboard.stergeperifericKeyboard}"></h:commandButton>
-</h:panelGrid>
-<h:panelGrid id="p4" columns="2">
-<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAbandon" value="Abandon" actionListener="#{formKeyboard.abandon}"></h:commandButton>
-<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSalveaza" value="Salveaza" actionListener="#{formKeyboard.salveazaperifericKeyboard}"></h:commandButton>
-</h:panelGrid>
-<h:selectOneMenu styleClass="form-control" style="margin:5px" value="#{formKeyboard.idperifericKeyboard}">
-<f:selectItems id="s1" value="#{formKeyboard.perifericeKeyboard}"
-var="item" itemValue="#{item.obiectId}"></f:selectItems>
-<f:ajax render="Nume Mehanica Id Backlit producator Pret stocDisponibil stocTotal"></f:ajax>
-</h:selectOneMenu>
-
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Id"></h:outputLabel>
-<h:inputText styleClass="form-control" style="margin:2px" id="Id" readonly="#{formKeyboard.readOnlyId}" value="#{formKeyboard.perifericKeyboard.obiectId}"></h:inputText>
-
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Mehanica"></h:outputLabel>
-<h:inputText  styleClass="form-control" style="margin:2px" id="Mehanica" value="#{formKeyboard.perifericKeyboard.esteMehanica}"></h:inputText>
-
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Nume"></h:outputLabel>
-<h:inputText styleClass="form-control" style="margin:2px" id="Nume" value="#{formKeyboard.perifericKeyboard.obiectNume}"></h:inputText>
-
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Backlit"></h:outputLabel>
-<h:inputText styleClass="form-control" style="margin:2px" id="Backlit" value="#{formKeyboard.perifericKeyboard.prezentBacklit}"></h:inputText>
-
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Producator"></h:outputLabel>
-<h:inputText styleClass="form-control" style="margin:2px" id="producator" value="#{formKeyboard.perifericKeyboard.obiectProducator}"></h:inputText>
-
-
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Pretul"></h:outputLabel>
-<h:inputText styleClass="form-control" style="margin:2px" id="Pret" value="#{formKeyboard.perifericKeyboard.obiectPret}"></h:inputText>
-
-
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Stoc Disponibil"></h:outputLabel>
-<h:outputLabel styleClass="form-control" style="margin:2px" id="stocDisponibil" value="#{formKeyboard.perifericKeyboard.stocDisponibil}"></h:outputLabel>
-
-
-<h:outputLabel style="display:block ; width:100%; text-align:center;margin:2px" value="Stoc Total"></h:outputLabel>
-
-<h:inputText styleClass="form-control" style="margin:2px" id="stocTotal" value="#{formKeyboard.perifericKeyboard.stocTotal}"></h:inputText>
-</h:panelGrid>
-
-<h:messages style = "color:red;margin:8px;" /> 
-</h:form>
-
-
-</body>
+<html
+   xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:f="http://java.sun.com/jsf/core"
+   >
+   <body>
+      <div
+         style="
+         width: 100%;
+         font-size: 36px;
+         line-height: 48px;
+         background-color: navy;
+         color: white;
+         "
+         >
+         Formular gestionare Keyboard
+      </div>
+      <h:button outcome="Menu.xhtml" value="Menu" />
+      <h:form id="form1">
+         <h:panelGrid id="p1" columns="4">
+            <f:facet name="header">
+               <link
+                  rel="stylesheet"
+                  href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+                  />
+               <h:outputText
+                  value="Formular Gestionare Keyboard"
+                  style="font-size: 18px"
+                  ></h:outputText>
+            </f:facet>
+            <h:panelGrid id="p2" columns="2">
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 4px"
+                  id="prevC"
+                  value="Previous"
+                  actionListener="#{formKeyboard.prevperifericKeyboard}"
+                  ></h:commandButton>
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 4px"
+                  id="nextC"
+                  value="Next"
+                  actionListener="#{formKeyboard.nextperifericKeyboard}"
+                  ></h:commandButton>
+            </h:panelGrid>
+            <h:panelGrid id="p3" columns="2">
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 4px"
+                  id="cmdAdauga"
+                  value="Adauga"
+                  actionListener="#{formKeyboard.adaugaperifericKeyboard}"
+                  ></h:commandButton>
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 4px"
+                  id="cmdSterge"
+                  value="Sterge"
+                  actionListener="#{formKeyboard.stergeperifericKeyboard}"
+                  ></h:commandButton>
+            </h:panelGrid>
+            <h:panelGrid id="p4" columns="2">
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 4px"
+                  id="cmdAbandon"
+                  value="Abandon"
+                  actionListener="#{formKeyboard.abandon}"
+                  ></h:commandButton>
+               <h:commandButton
+                  styleClass="btn btn-primary"
+                  style="margin: 4px"
+                  id="cmdSalveaza"
+                  value="Salveaza"
+                  actionListener="#{formKeyboard.salveazaperifericKeyboard}"
+                  ></h:commandButton>
+            </h:panelGrid>
+            <h:selectOneMenu
+               styleClass="form-control"
+               style="margin: 5px"
+               value="#{formKeyboard.idperifericKeyboard}"
+               >
+               <f:selectItems
+                  id="s1"
+                  value="#{formKeyboard.perifericeKeyboard}"
+                  var="item"
+                  itemValue="#{item.obiectId}"
+                  ></f:selectItems>
+               <f:ajax
+                  render="Nume Mehanica Id Backlit producator Pret stocDisponibil stocTotal"
+                  ></f:ajax>
+            </h:selectOneMenu>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 2px"
+               value="Id"
+               ></h:outputLabel>
+            <h:inputText
+               styleClass="form-control"
+               style="margin: 2px"
+               id="Id"
+               readonly="#{formKeyboard.readOnlyId}"
+               value="#{formKeyboard.perifericKeyboard.obiectId}"
+               ></h:inputText>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 2px"
+               value="Mehanica"
+               ></h:outputLabel>
+            <h:inputText
+               styleClass="form-control"
+               style="margin: 2px"
+               id="Mehanica"
+               value="#{formKeyboard.perifericKeyboard.esteMehanica}"
+               ></h:inputText>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 2px"
+               value="Nume"
+               ></h:outputLabel>
+            <h:inputText
+               styleClass="form-control"
+               style="margin: 2px"
+               id="Nume"
+               value="#{formKeyboard.perifericKeyboard.obiectNume}"
+               ></h:inputText>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 2px"
+               value="Backlit"
+               ></h:outputLabel>
+            <h:inputText
+               styleClass="form-control"
+               style="margin: 2px"
+               id="Backlit"
+               value="#{formKeyboard.perifericKeyboard.prezentBacklit}"
+               ></h:inputText>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 2px"
+               value="Producator"
+               ></h:outputLabel>
+            <h:inputText
+               styleClass="form-control"
+               style="margin: 2px"
+               id="producator"
+               value="#{formKeyboard.perifericKeyboard.obiectProducator}"
+               ></h:inputText>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 2px"
+               value="Pretul"
+               ></h:outputLabel>
+            <h:inputText
+               styleClass="form-control"
+               style="margin: 2px"
+               id="Pret"
+               value="#{formKeyboard.perifericKeyboard.obiectPret}"
+               ></h:inputText>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 2px"
+               value="Stoc Disponibil"
+               ></h:outputLabel>
+            <h:outputLabel
+               styleClass="form-control"
+               style="margin: 2px"
+               id="stocDisponibil"
+               value="#{formKeyboard.perifericKeyboard.stocDisponibil}"
+               ></h:outputLabel>
+            <h:outputLabel
+               style="display: block; width: 100%; text-align: center; margin: 2px"
+               value="Stoc Total"
+               ></h:outputLabel>
+            <h:inputText
+               styleClass="form-control"
+               style="margin: 2px"
+               id="stocTotal"
+               value="#{formKeyboard.perifericKeyboard.stocTotal}"
+               ></h:inputText>
+         </h:panelGrid>
+         <h:messages style="color: red; margin: 8px" />
+      </h:form>
+   </body>
 </html>
