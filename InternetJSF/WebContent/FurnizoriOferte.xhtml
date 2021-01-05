@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:h="http://java.sun.com/jsf/html"
+xmlns:f="http://java.sun.com/jsf/core"
+>
+<body>
+	<div
+		style="width: 100%; font-size: 36px; line-height: 48px; background-color: navy; color: white">
+		Formular-Statii-Sali
+	</div>
+	<h:button outcome="Menu.xhtml" value="Menu" />
+	<h:form id="formFurnizori" >
+		<h:panelGrid columns="2" id="panouFormMaster" style="margin:5px">
+			<f:facet name="header">
+			<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+				<h:outputText value="Gestiunea Statiilor Din Sali"></h:outputText>
+			</f:facet>
+			<h:selectOneMenu styleClass="form-control" style="margin:2px" id="cboFurnizori" value="#{formFurnizori.idFurnizori}">
+				<f:selectItems value="#{formFurnizori.furnizorii}" 
+					var="item" 
+					itemValue="#{item.furnizorId}" 
+					itemLabel="#{item.furnizorNume}" />
+				<f:ajax render="@form"/>
+			</h:selectOneMenu>
+			<h:panelGrid columns="2" style="margin-left:20px">
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdPrevious"
+					actionListener="#{formFurnizori.previousfurnizori}" value="Inapoi">
+					<f:ajax render="@form"/>
+				</h:commandButton>
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdNext"
+					actionListener="#{formFurnizori.nextfurnizori}" value="Inainte">
+					<f:ajax render="@form"/>
+				</h:commandButton>
+			</h:panelGrid> 
+			
+			<h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Id:"></h:outputText>
+			<h:inputText styleClass="form-control" style="margin:2px" id="id" readonly="#{formFurnizori.readOnlyId}" value="#{formFurnizori.furnizori.furnizorId}"
+				validatorMessage="IDul este obligatoriu!">
+				<f:validateDoubleRange minimum="0"/>
+			</h:inputText>
+			
+			<h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Denumire Furnizor"/>
+			<h:inputText styleClass="form-control" style="margin:2px" id="denumire"
+				value="#{formFurnizori.furnizori.furnizorNume}">
+			</h:inputText>
+			
+			<h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Adresa Furnizor"/>
+			<h:inputText styleClass="form-control" style="margin:2px" id="adresa"
+				value="#{formFurnizori.furnizori.furnizorAdresa}" readonly="true"/>
+				
+			<h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Oras Furnizor"/>
+			<h:inputText styleClass="form-control" style="margin:2px" id="oras"
+				value="#{formFurnizori.furnizori.furnizorOras}"/>
+				
+			<h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Disponibilitate Livrare"/>
+			<h:inputText styleClass="form-control" style="margin:2px" id="livrare"
+				value="#{formFurnizori.furnizori.furnizorLivrare}"/>
+				
+			<h:panelGrid columns="2" >
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAdaugare"
+					actionListener="#{formFurnizori.adaugarefurnizori}" value="Adaugare"/>
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSterge"
+					actionListener="#{formFurnizori.stergerefurnizori}" value="Stergere"/>
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAbandon"
+					actionListener="#{formFurnizori.abandon}" value="Abandon"/>
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdSalvare"
+					actionListener="#{formFurnizori.salvarefurnizori}" value="Salvare"/>
+			</h:panelGrid>
+		</h:panelGrid>
+		
+		<h:dataTable id = "statieGrid" style="border:2px solid gray; margin:10px;"
+			value="#{formFurnizori.furnizoriOfertantiDataModel}" var="furnizoriOfertanti">
+			<h:column>
+				<f:facet name="header"><h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Id"/></f:facet>
+				<h:selectOneMenu styleClass="form-control" style="margin:5" id="cboInventar" value="#{formFurnizori.idInventar}" >
+					<f:selectItems value="#{formFurnizori.inventar}" var="item" 
+						itemValue="#{item.obiectId}"/>
+						<f:ajax/>
+				</h:selectOneMenu>				
+
+			</h:column>
+			<h:column>
+				<f:facet name="header"> <h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Calculator"/> </f:facet>
+			<h:inputText styleClass="form-control" style="margin:2px" id="pret" value="#{furnizoriOfertanti.pretFurnizoriLei}"
+				validatorMessage="IDul este obligatoriu!">
+				<f:validateDoubleRange minimum="0"/>
+				<f:ajax/>
+			</h:inputText>
+			</h:column>
+			<h:column>
+				<f:facet name="header"> <h:outputText style="display:block ; width:100%; text-align:center;margin:2px" value="Display"/> </f:facet>
+			<h:inputText styleClass="form-control" style="margin:2px" id="cantitate" value="#{furnizoriOfertanti.cantitateOferita}"
+				validatorMessage="IDul este obligatoriu!">
+				<f:validateDoubleRange minimum="0"/>
+				<f:ajax/>
+			</h:inputText>
+			</h:column>		
+			<h:column>
+				<f:facet name="header"><h:outputText value="Sterge"/></f:facet>
+				<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdStergeArticol"
+					actionListener="#{formFurnizori.stergeOferta}" value="Sterge">
+					<f:ajax render="statieGrid"/>
+				</h:commandButton>
+			</h:column>
+			<h:column>
+				<f:facet name="header"><h:outputText value="Salveaza"/></f:facet>
+				<h:commandButton  styleClass="btn btn-primary" style="margin:4px" id="cmdSalveazaArticol"
+					actionListener="#{formFurnizori.salveazaOferta}" value="Salveaza">
+					<f:ajax render="statieGrid"/>
+				</h:commandButton>
+			</h:column>
+		</h:dataTable>
+		<h:commandButton styleClass="btn btn-primary" style="margin:4px" id="cmdAdaugaArticol"
+			actionListener="#{formFurnizori.adaugaOferta}" value="Adauga articol"/>
+						
+		<h:messages style = "color:red;margin:8px;"/> 
+	</h:form>
+</body>
+
+</html>

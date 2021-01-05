@@ -18,6 +18,7 @@ xmlns:f="http://java.sun.com/jsf/core"
 <h:button styleClass="btn btn-primary" outcome="Keyboard.xhtml" value="Keyboard-uri" style="margin:4px"/>
 <h:button styleClass="btn btn-primary" outcome="Mouse.xhtml" value="Mouse-uri" style="margin:4px"/>
 <h:button styleClass="btn btn-primary" outcome="Mobilier.xhtml" value="Mobilier" style="margin:4px" />
+
 </h:panelGrid>
 
 <h:panelGrid id="p2" columns="1">
@@ -26,6 +27,15 @@ xmlns:f="http://java.sun.com/jsf/core"
 </f:facet>
 <h:button styleClass="btn btn-primary" outcome="SaliCalculatoare.xhtml" value="Sali/Statii Calculatoare" style="margin:4px" />
 </h:panelGrid>
-
+<h:panelGrid id="p2" columns="2">
+<f:facet name="header" >
+<h:outputText value="Vanzare/Cumparare Obiecte" style="font-size: 18px"></h:outputText>
+</f:facet>
+<h:button styleClass="btn btn-primary" outcome="OferteVanzare.xhtml" value="Ofertele noastre" style="margin:4px" />
+<h:button styleClass="btn btn-primary" outcome="FurnizoriOferte.xhtml" value="Furnizori/Oferte" style="margin:4px" />
+</h:panelGrid>
 </body>
+
+
+
 </html>
