@@ -38,16 +38,12 @@ public class FormFurnizori {
 		private Boolean disabledId;
 		
 		public Integer getIdFurnizori () {
-			
-			return this.furnizori.getFurnizorId();
-			
+			return this.furnizori.getFurnizorId();	
 		}
 		
 		public void setIdFurnizori(Integer id){
-
-			if(this.em.contains(this.furnizori)) {
-				this.furnizori = em.find(furnizori.getClass(), id);
-			}
+	    	this.furnizori = this.furnizorii.stream().filter(c -> c.getFurnizorId().equals(id)).findFirst().get();
+	    	System.out.println(">>> >>> Rezultat cautare: " + this.furnizori);
 		}
 		
 		public Boolean getReadOnlyId() {
@@ -101,6 +97,7 @@ public class FormFurnizori {
 			this.furnizorii.add(this.furnizori);
 			this.readOnlyId = false;
 		}
+		
 		public void adaugarefurnizori() {
 			this.furnizori=new Furnizori();
 			this.furnizori.setFurnizorId(999);
@@ -136,6 +133,7 @@ public class FormFurnizori {
 				if (!em.getTransaction().isActive()) 
 					em.getTransaction().begin();
 				if(!this.em.contains(furnizori)) {
+					this.furnizori.setFurnizorId(null);
 					em.persist(furnizori);	
 				}
 				this.furnizori=this.furnizorii.get(0);
@@ -160,10 +158,11 @@ public class FormFurnizori {
 		}
 		
 		
-		public void stergerefurnizori(ActionEvent evt){			
+		public void stergerefurnizori(ActionEvent evt){		
+			this.furnizorii.remove(this.furnizori);
 			if(this.furnizoriOfertantiDataModel.getRowCount()!=0) {
 				
-				FacesMessage facesMsg = new FacesMessage("Asigurati-va ca in sala nu sunt inventar");			
+				FacesMessage facesMsg = new FacesMessage("Asigurati-va ca furnizorul nu are oferte");			
 				FacesContext fc = FacesContext.getCurrentInstance();			
 				// Afisare mesaj
 				fc.addMessage(null, facesMsg);
@@ -176,7 +175,6 @@ public class FormFurnizori {
 			// ----------------------------------		
 			if (this.em.contains(this.furnizori)){
 				this.em.remove(this.furnizori);
-				this.furnizorii.remove(this.furnizori);
 			}
 			if (this.furnizorii.size() > 0)
 				this.furnizori = this.furnizorii.get(0);

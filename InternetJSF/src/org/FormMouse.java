@@ -84,7 +84,7 @@ public class FormMouse {
 
     public void adaugaperifericMouse(ActionEvent e) {
         this.perifericMouse = new perifericMouse();
-        this.perifericMouse.setObiectId(999);
+        this.perifericMouse.setObiectId(0);
         this.perifericMouse.setObiectNume("Nume Nou");
         this.perifericMouse.setStocTotal(0);
         this.perifericMouse.setTipInventar(this.perifericeMouse.get(0).getTipInventar());
@@ -119,6 +119,7 @@ public class FormMouse {
         try {
             if (!this.em.contains(this.perifericMouse)) {
                 this.perifericMouse.setStocDisponibil(this.perifericMouse.getStocTotal());
+                this.perifericMouse.setObiectId(null);
                 em.persist(this.perifericMouse);
             }
 
@@ -157,7 +158,7 @@ public class FormMouse {
 
         if (q1.getResultList().size() != 0 || q2.getResultList().size() != 0 || q3.getResultList().size() != 0) {
 
-            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor");
+            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor sau intr-o statie");
             FacesContext fc = FacesContext.getCurrentInstance();
             // Afisare mesaj
             fc.addMessage(null, facesMsg);
@@ -209,9 +210,8 @@ public class FormMouse {
     }
 
     public void setIdperifericMouse(Integer id) {
-        if (this.em.contains(this.perifericMouse)) {
-            this.perifericMouse = em.find(perifericMouse.class, id);
-        }
+    	this.perifericMouse = this.perifericeMouse.stream().filter(c -> c.getObiectId().equals(id)).findFirst().get();
+    	System.out.println(">>> >>> Rezultat cautare: " + this.perifericMouse);
     }
 
     public Boolean checkIfThere(perifericMouse mouse) {

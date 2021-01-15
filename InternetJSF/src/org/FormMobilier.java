@@ -80,7 +80,7 @@ public class FormMobilier {
 
     public void adaugaMobilier(ActionEvent e) {
         this.Mobilier = new Mobilier();
-        this.Mobilier.setObiectId(999);
+        this.Mobilier.setObiectId(0);
         this.Mobilier.setObiectNume("Nume Nou");
         this.Mobilier.setStocTotal(0);
         this.Mobilier.setTipInventar(this.mobiliere.get(0).getTipInventar());
@@ -115,6 +115,7 @@ public class FormMobilier {
         try {
             if (!this.em.contains(this.Mobilier)) {
                 this.Mobilier.setStocDisponibil(this.Mobilier.getStocTotal());
+                this.Mobilier.setObiectId(null);
                 em.persist(this.Mobilier);
             }
 
@@ -152,7 +153,7 @@ public class FormMobilier {
 
         if (q1.getResultList().size() != 0 || q2.getResultList().size() != 0 || q3.getResultList().size() != 0) {
 
-            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor");
+            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor sau intr-o statie");
             FacesContext fc = FacesContext.getCurrentInstance();
             // Afisare mesaj
             fc.addMessage(null, facesMsg);
@@ -204,9 +205,8 @@ public class FormMobilier {
     }
 
     public void setIdMobilier(Integer id) {
-        if (this.em.contains(this.Mobilier)) {
-            this.Mobilier = em.find(Mobilier.class, id);
-        }
+    	this.Mobilier = this.mobiliere.stream().filter(c -> c.getObiectId().equals(id)).findFirst().get();
+    	System.out.println(">>> >>> Rezultat cautare: " + this.mobiliere);
     }
 
     public Boolean checkIfThere(Mobilier mouse) {

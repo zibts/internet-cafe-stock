@@ -120,6 +120,7 @@ public class FormObiecteInVanzare {
 
         try {
             if (!this.em.contains(this.stocInVanzare)) {
+                this.stocInVanzare.setOfertaVanzareId(null);
                 em.persist(this.stocInVanzare);
             }
 
@@ -209,9 +210,8 @@ public class FormObiecteInVanzare {
     }
 
     public void setIdstocInVanzare(Integer id) {
-        if (this.em.contains(this.stocInVanzare)) {
-            this.stocInVanzare = em.find(stocInVanzare.class, id);
-        }
+    	this.stocInVanzare = this.stocuriInVanzare.stream().filter(c -> c.getOfertaVanzareId().equals(id)).findFirst().get();
+    	System.out.println(">>> >>> Rezultat cautare: " + this.stocInVanzare);
     }
 
     public Boolean checkIfThere(stocInVanzare mouse) {

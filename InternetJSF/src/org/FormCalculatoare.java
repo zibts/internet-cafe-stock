@@ -12,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-
 import org.calculator;
 
 @ManagedBean @SessionScoped
@@ -92,7 +91,6 @@ public class FormCalculatoare {
     }
 
     public void salveazacalculator(ActionEvent e) {
-        Integer intermed = this.calculator.getObiectId();
         this.readOnlyId = true;
         if (!em.getTransaction().isActive())
             em.getTransaction().begin();
@@ -118,6 +116,7 @@ public class FormCalculatoare {
         try {
             if (!this.em.contains(this.calculator)) {
                 this.calculator.setStocDisponibil(this.calculator.getStocTotal());
+                this.calculator.setObiectId(null);
                 em.persist(this.calculator);
             }
 
@@ -185,9 +184,11 @@ public class FormCalculatoare {
     }
 
     public void setIdCalculator(Integer id) {
-        if (this.em.contains(this.calculator)) {
-            this.calculator = em.find(calculator.class, id);
-        }
+//        if (this.em.contains(this.calculator)) {
+//            this.calculator = em.find(calculator.class, id);
+//        }
+    	this.calculator = this.calculatoare.stream().filter(c -> c.getObiectId().equals(id)).findFirst().get();
+    	System.out.println(">>> >>> Rezultat cautare: " + this.calculator);
     }
 
     public Boolean checkIfThere(calculator calculator) {
@@ -201,3 +202,6 @@ public class FormCalculatoare {
 
 
 }
+
+//    
+

@@ -80,7 +80,7 @@ public class FormCasti {
 
     public void adaugaperifericCasti(ActionEvent e) {
         this.perifericCasti = new perifericCasti();
-        this.perifericCasti.setObiectId(999);
+        this.perifericCasti.setObiectId(0);
         this.perifericCasti.setObiectNume("Nume Nou");
         this.perifericCasti.setStocTotal(0);
         this.perifericCasti.setTipInventar(this.perifericeCasti.get(0).getTipInventar());
@@ -115,6 +115,7 @@ public class FormCasti {
         try {
             if (!this.em.contains(this.perifericCasti)) {
                 this.perifericCasti.setStocDisponibil(this.perifericCasti.getStocTotal());
+                this.perifericCasti.setObiectId(null);
                 em.persist(this.perifericCasti);
             }
 
@@ -152,7 +153,7 @@ public class FormCasti {
 
         if (q1.getResultList().size() != 0 || q2.getResultList().size() != 0 || q3.getResultList().size() != 0) {
 
-            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor");
+            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor sau intr-o statie");
             FacesContext fc = FacesContext.getCurrentInstance();
             // Afisare mesaj
             fc.addMessage(null, facesMsg);
@@ -204,9 +205,8 @@ public class FormCasti {
     }
 
     public void setIdperifericCasti(Integer id) {
-        if (this.em.contains(this.perifericCasti)) {
-            this.perifericCasti = em.find(perifericCasti.class, id);
-        }
+    	this.perifericCasti = this.perifericeCasti.stream().filter(c -> c.getObiectId().equals(id)).findFirst().get();
+    	System.out.println(">>> >>> Rezultat cautare: " + this.perifericCasti);
     }
 
     public Boolean checkIfThere(perifericCasti Casti) {

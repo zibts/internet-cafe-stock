@@ -115,6 +115,7 @@ public class FormKeyboard {
         try {
             if (!this.em.contains(this.perifericKeyboard)) {
                 this.perifericKeyboard.setStocDisponibil(this.perifericKeyboard.getStocTotal());
+                this.perifericKeyboard.setObiectId(null);
                 em.persist(this.perifericKeyboard);
             }
 
@@ -152,7 +153,7 @@ public class FormKeyboard {
 
         if (q1.getResultList().size() != 0 || q2.getResultList().size() != 0 || q3.getResultList().size() != 0) {
 
-            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor");
+            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor sau intr-o statie");
             FacesContext fc = FacesContext.getCurrentInstance();
             // Afisare mesaj
             fc.addMessage(null, facesMsg);
@@ -204,9 +205,8 @@ public class FormKeyboard {
     }
 
     public void setIdperifericKeyboard(Integer id) {
-        if (this.em.contains(this.perifericKeyboard)) {
-            this.perifericKeyboard = em.find(perifericKeyboard.class, id);
-        }
+    	this.perifericKeyboard = this.perifericeKeyboard.stream().filter(c -> c.getObiectId().equals(id)).findFirst().get();
+    	System.out.println(">>> >>> Rezultat cautare: " + this.perifericKeyboard);
     }
 
     public Boolean checkIfThere(perifericKeyboard Keyboard) {

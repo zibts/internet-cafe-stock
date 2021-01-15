@@ -41,10 +41,10 @@ public class FormSala {
 		}
 		
 		public void setIdSala(Integer id){
-
-			if(this.em.contains(this.salaCalculatoare)) {
-				this.salaCalculatoare = em.find(salaCalculatoare.getClass(), id);
-			}
+			
+	    	this.salaCalculatoare = this.saliCalculatoare.stream().filter(c -> c.getSalaId().equals(id)).findFirst().get();
+	    	System.out.println(">>> >>> Rezultat cautare: " + this.salaCalculatoare);
+	    	
 		}
 		
 		public Boolean getReadOnlyId() {
@@ -141,7 +141,7 @@ public class FormSala {
 		// Actiuni tranzactionale
 		public void adaugareSalaCalculatoare(ActionEvent e) {
 			this.salaCalculatoare=new salaCalculatoare();
-			this.salaCalculatoare.setSalaId(999);
+			this.salaCalculatoare.setSalaId(0);
 			this.salaCalculatoare.setDenumireSala("Introduceti denumire");
 			this.salaCalculatoare.setNrStatiiAmplasate(null);
 			this.saliCalculatoare.add(this.salaCalculatoare);
@@ -175,6 +175,7 @@ public class FormSala {
 			
 			try {
 				if(!this.em.contains(salaCalculatoare)) {
+					this.salaCalculatoare.setSalaId(null);
 					em.persist(salaCalculatoare);	
 					em.getTransaction().commit();
 				}
@@ -201,6 +202,15 @@ public class FormSala {
 		
 		
 		public void stergereSalaCalculatoare(ActionEvent evt){		
+			if(this.statiiInSalaDataModel.getRowCount()!=0) {
+				
+				FacesMessage facesMsg = new FacesMessage("Asigurati-va ca in sala nu sunt statii");			
+				FacesContext fc = FacesContext.getCurrentInstance();			
+				// Afisare mesaj
+				fc.addMessage(null, facesMsg);
+				fc.renderResponse();
+				return;
+			}
 			
 			if(this.saliCalculatoare.size()==1) {
 				
@@ -231,6 +241,7 @@ public class FormSala {
 		public void abandon(ActionEvent evt){
 			if (this.em.contains(this.salaCalculatoare)){
 				this.em.refresh(this.salaCalculatoare);
+				em.clear();
 			}else
 				this.initModelSali();
 		}

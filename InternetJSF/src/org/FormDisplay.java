@@ -80,7 +80,7 @@ public class FormDisplay {
 
     public void adaugaperifericDisplay(ActionEvent e) {
         this.perifericDisplay = new perifericDisplay();
-        this.perifericDisplay.setObiectId(999);
+        this.perifericDisplay.setObiectId(0);
         this.perifericDisplay.setObiectNume("Nume Nou");
         this.perifericDisplay.setStocTotal(0);
         this.perifericDisplay.setTipInventar(this.perifericeDisplay.get(0).getTipInventar());
@@ -115,6 +115,7 @@ public class FormDisplay {
         try {
             if (!this.em.contains(this.perifericDisplay)) {
                 this.perifericDisplay.setStocDisponibil(this.perifericDisplay.getStocTotal());
+                this.perifericDisplay.setObiectId(null);
                 em.persist(this.perifericDisplay);
             }
 
@@ -152,7 +153,7 @@ public class FormDisplay {
 
         if (q1.getResultList().size() != 0 || q2.getResultList().size() != 0 || q3.getResultList().size() != 0) {
 
-            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor");
+            FacesMessage facesMsg = new FacesMessage("Asigurati-va ca elementul nu este prezent in oferte de vanzare sau in ofertele furnizorilor sau intr-o statie");
             FacesContext fc = FacesContext.getCurrentInstance();
             // Afisare mesaj
             fc.addMessage(null, facesMsg);
@@ -204,9 +205,8 @@ public class FormDisplay {
     }
 
     public void setIdperifericDisplay(Integer id) {
-        if (this.em.contains(this.perifericDisplay)) {
-            this.perifericDisplay = em.find(perifericDisplay.class, id);
-        }
+    	this.perifericDisplay = this.perifericeDisplay.stream().filter(c -> c.getObiectId().equals(id)).findFirst().get();
+    	System.out.println(">>> >>> Rezultat cautare: " + this.perifericDisplay);
     }
 
     public Boolean checkIfThere(perifericDisplay Display) {
